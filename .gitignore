@@ -1,0 +1,17 @@
+# Environment variables — never commit
+.env
+.env.local
+.env.*.local
+
+# Local Claude settings (contains API keys)
+.claude/settings.local.json
+
+# Google service account credentials
+credentials/
+
+# Dependencies
+node_modules/
+
+# Remotion output
+remotion/out/
+.playwright-mcp/

@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp"
+    },
+    "puppeteer": {
+      "command": "node",
+      "args": [
+        "C:/Users/admin/AppData/Local/npm-cache/_npx/ab5cd9f6d13a2312/node_modules/@modelcontextprotocol/server-puppeteer/dist/index.js"
+      ]
+    },
+    "firecrawl": {
+      "command": "node",
+      "args": [
+        "C:/Users/admin/AppData/Local/npm-cache/_npx/12b05d58670d8359/node_modules/firecrawl-mcp/dist/index.js"
+      ],
+      "env": {
+        "FIRECRAWL_API_KEY": "fc-9ea3b92b2e494bdebfc53fae1dda77cd"
+      }
+    }
+  }
+}
