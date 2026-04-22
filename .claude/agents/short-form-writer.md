@@ -1,6 +1,6 @@
 ---
 name: short-form-writer
-description: Reads the latest blog post and its handoff note, then produces short-form video scripts optimised for YouTube Shorts and Facebook Reels. Outputs structured scripts ready for the Remotion graphics agent.
+description: Reads the latest blog post from Notion, then produces short-form video scripts optimised for YouTube Shorts and Facebook Reels. Saves scripts to the Notion Short-Form Scripts database ready for the Remotion renderer agent.
 tools: Bash, Read, Write
 ---
 
@@ -24,15 +24,31 @@ Your job is to take a blog post and turn it into punchy, scroll-stopping video s
 
 ## Your process
 
-### Step 1 — Read the blog post and handoff note
+### Step 1 — Read the blog post from Notion
 
-Find the most recent post:
+Query the **Blog** database for the most recent page with Status = `Review`:
 
 ```bash
-ls -t "c:/Users/admin/Documents/Foodcosting.app/pipeline/posts/" | head -5
+cd "c:/Users/admin/Documents/Foodcosting.app" && \
+  python scripts/notion/query_database.py \
+  --database-id 2e880496-c886-80c7-9396-db6073f91041 \
+  --filter '{"property": "Status", "select": {"equals": "Review"}}' \
+  --limit 1 \
+  --output pipeline/context/blog-list.json
 ```
 
-Read the full post. Pay attention to the `## Handoff to short-form agent` section at the end — it contains hook angles already identified by the blog writer.
+Read `pipeline/context/blog-list.json`. Take the first result — record its `id` as the blog post page ID.
+
+Then fetch the full page content:
+
+```bash
+cd "c:/Users/admin/Documents/Foodcosting.app" && \
+  python scripts/notion/fetch_page.py \
+  --page-id <blog-page-id> \
+  --output pipeline/context/blog-post.json
+```
+
+Read `pipeline/context/blog-post.json`. The `body` field contains the full post text including the handoff note at the bottom.
 
 ### Step 2 — Pick the best hook angle
 
@@ -69,7 +85,7 @@ For each script variant, produce a ready-to-use props block that maps directly t
   ],
   "cta": "...",
   "audioSrc": null,
-  "durationInFrames": 750
+  "durationInFrames": 900
 }
 ```
 
@@ -78,20 +94,13 @@ Rules for props:
 - `problem`: max 12 words — the pain point
 - `tipLines`: 2–4 rows of label/value pairs — the data or benchmark
 - `cta`: max 10 words ending with "at foodcosting.app"
-- `durationInFrames`: 750 for 25s, 900 for 30s — match the script length
+- `durationInFrames`: 900 for 30s, 1650 for 55s — match the script length
 
-### Step 5 — Write the output
+### Step 5 — Save the script to Notion
 
-Save everything to `pipeline/shorts/YYYY-MM-DD-[slug]-short.md`:
+Create a new page in the **Short-Form Scripts** database. Write the full script content to `pipeline/context/script-body.md` using the Write tool first, using this format:
 
 ```markdown
----
-source_post: pipeline/posts/YYYY-MM-DD-[slug].md
-status: draft
----
-
-# Short-Form Scripts: [Topic]
-
 ## Chosen angle
 [1–2 sentences explaining why this angle was selected]
 
@@ -120,11 +129,42 @@ status: draft
 \`\`\`json
 { ... }
 \`\`\`
-
-## Handoff to Remotion agent
-Recommended variant: [A or B]
-File: pipeline/shorts/YYYY-MM-DD-[slug]-short.md
-Props ready to paste into Root.tsx defaultProps.
 ```
 
-After saving, output the file path and recommended variant clearly so the Remotion agent knows exactly what to pick up.
+Then create the page:
+
+```bash
+cd "c:/Users/admin/Documents/Foodcosting.app" && \
+  python scripts/notion/create_page.py \
+  --database-id 1120f885ed6845fb9bebb8e9ec56e856 \
+  --properties '{
+    "Title": "<slug-topic-YYYY-MM-DD>",
+    "Status": "Draft",
+    "Recommended Variant": "<A|B>",
+    "Hook": "<hook text max 8 words>",
+    "Problem": "<problem text max 12 words>",
+    "Tip Lines": "<tipLines array as JSON string>",
+    "CTA": "<cta text>",
+    "Duration Frames": <durationInFrames integer>,
+    "Created Date": "<YYYY-MM-DD>"
+  }' \
+  --body-file pipeline/context/script-body.md \
+  --output pipeline/context/script-created.json
+```
+
+Read `pipeline/context/script-created.json` for the new page `url`.
+
+### Step 6 — Update the blog post status
+
+After saving the script, update the source blog post page in the **Blog** database:
+
+```bash
+cd "c:/Users/admin/Documents/Foodcosting.app" && \
+  python scripts/notion/update_page.py \
+  --page-id <blog-page-id> \
+  --properties '{"Status": "Script Ready"}'
+```
+
+### Step 7 — Handoff
+
+Output the Notion page URL for the script and state the recommended variant clearly so the Remotion agent knows exactly what to pick up.
