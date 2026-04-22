@@ -176,19 +176,21 @@ Read Root.tsx again to confirm the change before rendering.
 
 ### B3 — Render the PNG sequence
 
-Each frame = one slide (fps=1). Render as a PNG sequence:
+Each slide is rendered individually using `remotion still`. First determine the slide count from the props (number of items in the `slides` array). Then loop from frame 0 to N-1:
 
 ```bash
 mkdir -p "c:/Users/admin/Documents/Foodcosting.app/pipeline/out/YYYY-MM-DD-[slug]-carousel"
 
 cd "c:/Users/admin/Documents/Foodcosting.app/remotion" && \
-  npx remotion render src/index.ts Carousel \
-  "../pipeline/out/YYYY-MM-DD-[slug]-carousel/slide.png" \
-  --image-format=png \
-  --log=verbose
+  for i in $(seq 0 $((N-1))); do
+    npx remotion still src/index.ts Carousel \
+    "../pipeline/out/YYYY-MM-DD-[slug]-carousel/slide-$((i+1)).png" \
+    --frame=$i \
+    --image-format=png
+  done
 ```
 
-Replace `YYYY-MM-DD-[slug]` with today's date and the blog slug from the carousel page properties.
+Replace `YYYY-MM-DD-[slug]` with today's date and the blog slug from the carousel page properties. Replace `N` with the total number of slides.
 
 This produces one PNG per slide: `slide-1.png`, `slide-2.png`, etc.
 
