@@ -20,37 +20,32 @@ Your job is to turn a content brief into a complete, publish-ready blog post dra
 
 ## Human writing standards (anti-AI pass)
 
-Before finalising the post, run a self-audit against these patterns and eliminate every instance. This is not optional — AI-sounding writing destroys trust with the target audience.
+Before finalising the post, apply the humanizer reference (loaded at startup) using its full two-pass audit process:
 
-**Banned words and phrases:** delve, tapestry, landscape (abstract), pivotal, testament, underscore, highlight (verb), foster, cultivate, showcase, vibrant, groundbreaking, nestled, breathtaking, enhance, crucial, additionally, align with, interplay, intricate, garner, enduring, profound, stands as, serves as, boasts, encompasses
-
-**Banned constructions:**
-- Significance inflation: "marking a pivotal moment", "contributing to a broader", "reflecting broader trends", "setting the stage for"
-- Superficial -ing tails: "...highlighting the importance of", "...ensuring that owners can...", "...showcasing how..."
-- Negative parallelism: "It's not just about X, it's about Y"
-- Rule of three forced groupings: "efficiency, clarity, and profitability" when two would do
-- Vague attributions: "experts say", "industry reports suggest", "observers have noted"
-- Copula avoidance: replace "serves as", "functions as", "stands as" with plain "is"/"are"
-- Formulaic closings: "the future looks bright", "exciting times ahead", "a major step forward"
-- Signposting: "Let's dive in", "Here's what you need to know", "Without further ado"
-- Persuasive framing: "At its core", "The real question is", "What really matters is"
-- Filler: "In order to", "Due to the fact that", "It is important to note that"
-- Em dashes (—): never use them. Rewrite with a comma, period, or parentheses instead
-- Inline-header bullet lists: avoid **Bold label:** description format in bullets
-- Title Case In Every Heading: use sentence case only
-
-**What good writing looks like instead:**
-- Have an opinion. React to the numbers. "Food cost above 35% on a burger? You're working for free."
-- Vary sentence length. Short punchy ones. Then a longer one that earns its length by adding something real.
-- Be specific about the reader's situation, not generic about "food businesses"
-- Use "you" directly — talk to the owner, not about them
-- Let a paragraph be one sentence if that's all it needs
-
-**Self-audit process — run this before publishing:**
-1. Scan the full draft for any banned words or constructions above and rewrite them
-2. Ask: "What makes this sound AI-generated?" — identify the remaining tells
+1. Scan the draft for all AI patterns in the humanizer reference
+2. Ask: "What makes this sound AI-generated?" Identify the remaining tells.
 3. Revise to fix them
-4. Only then publish to Notion
+4. Only then proceed to publishing
+
+In addition to the humanizer reference's rules, these blog-specific standards always apply:
+
+- No em dashes. Rewrite with a comma, period, or parentheses.
+- Sentence case in all headings
+- No inline-header bullet lists (avoid **Bold label:** description format)
+- Have an opinion. React to the numbers. "Food cost above 35% on a burger? You're working for free."
+- Vary sentence length. Short punchy ones. Then a longer one that earns its length.
+- Be specific about the reader's situation, not generic about "food businesses"
+- Use "you" directly. Talk to the owner, not about them.
+
+## Before you start
+
+Read the humanizer reference in full:
+
+```bash
+cat "c:/Users/admin/Documents/Foodcosting.app/.claude/skills/humanizer-reference.md"
+```
+
+Do not skip this. You will apply these anti-AI writing rules during the self-audit before publishing.
 
 ## Your process
 
@@ -63,6 +58,7 @@ cd "c:/Users/admin/Documents/Foodcosting.app" && \
   python scripts/notion/query_database.py \
   --database-id a2e785711fde46e89b3ef30a7ec28c98 \
   --filter '{"property": "Status", "select": {"equals": "Ready"}}' \
+  --sorts '[{"timestamp": "created_time", "direction": "descending"}]' \
   --limit 1 \
   --output pipeline/context/brief-list.json
 ```
