@@ -16,3 +16,21 @@ node_modules/
 remotion/out/
 .playwright-mcp/
 remotion/public/audio/*.mp3
+
+# Pipeline runtime state (json context files, rendered outputs)
+pipeline/context/*.json
+pipeline/out/
+pipeline/gsc_snapshot.json
+pipeline/posthog_*.json
+pipeline/shorts/*.mp4
+pipeline/social/
+
+# Python cache
+scripts/**/__pycache__/
+**/__pycache__/
+
+# Zip exports
+*.zip
+
+# Office temp/lock files
+~$*

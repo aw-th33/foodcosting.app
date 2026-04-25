@@ -67,16 +67,198 @@ def build_property_value(name, value, schema):
         return {"rich_text": [{"text": {"content": str(value)}}]}
 
 
+def parse_inline(text):
+    """Parse inline markdown (bold, italic) into Notion rich_text segments.
+
+    Strips [INTERNAL_LINK: ...] placeholders silently.
+    """
+    import re
+    # Remove internal link placeholders
+    text = re.sub(r'\[INTERNAL_LINK:[^\]]*\]', '', text).strip()
+
+    segments = []
+    # Tokenise: **bold**, *italic*, plain
+    pattern = re.compile(r'(\*\*(.+?)\*\*|\*(.+?)\*)')
+    last = 0
+    for m in pattern.finditer(text):
+        if m.start() > last:
+            segments.append({"type": "text", "text": {"content": text[last:m.start()]}})
+        if m.group(0).startswith('**'):
+            segments.append({
+                "type": "text",
+                "text": {"content": m.group(2)},
+                "annotations": {"bold": True},
+            })
+        else:
+            segments.append({
+                "type": "text",
+                "text": {"content": m.group(3)},
+                "annotations": {"italic": True},
+            })
+        last = m.end()
+    if last < len(text):
+        segments.append({"type": "text", "text": {"content": text[last:]}})
+    return segments if segments else [{"type": "text", "text": {"content": text}}]
+
+
+_CALLOUT_COLOR_MAP = {
+    "red_bg": "red_background",
+    "yellow_bg": "yellow_background",
+    "green_bg": "green_background",
+    "blue_bg": "blue_background",
+    "gray_bg": "gray_background",
+    "purple_bg": "purple_background",
+    "pink_bg": "pink_background",
+    "brown_bg": "brown_background",
+    "orange_bg": "orange_background",
+}
+
+
+def _parse_callout_open(line):
+    """Return (icon, color) if line is a <callout ...> opening tag, else None."""
+    import re
+    m = re.match(r'\s*<callout([^>]*)>', line, re.IGNORECASE)
+    if not m:
+        return None
+    attrs = m.group(1)
+    icon_m = re.search(r'icon=["\']([^"\']+)["\']', attrs)
+    color_m = re.search(r'color=["\']([^"\']+)["\']', attrs)
+    icon = icon_m.group(1) if icon_m else "💡"
+    raw_color = color_m.group(1) if color_m else "gray_background"
+    color = _CALLOUT_COLOR_MAP.get(raw_color, raw_color)
+    return icon, color
+
+
 def markdown_to_blocks(markdown_text):
-    """Convert a markdown string to Notion block objects (subset of block types)."""
+    """Convert a markdown string to Notion block objects.
+
+    Handles standard markdown (headings, lists, code fences, blockquotes,
+    dividers) plus custom blog syntax: <callout>, <table>, <details>.
+    Inline bold/italic and [INTERNAL_LINK:] placeholders are also handled.
+    """
+    import re
     blocks = []
     lines = markdown_text.split("\n")
     i = 0
+
     while i < len(lines):
         line = lines[i]
+        stripped = line.strip()
 
-        # Code fences
-        if line.startswith("```"):
+        # ── <callout> block ─────────────────────────────────────────────────
+        callout_attrs = _parse_callout_open(stripped)
+        if callout_attrs is not None:
+            icon, color = callout_attrs
+            body_lines = []
+            i += 1
+            while i < len(lines) and not re.match(r'\s*</callout>', lines[i], re.IGNORECASE):
+                body_lines.append(lines[i].strip())
+                i += 1
+            body_text = " ".join(bl for bl in body_lines if bl)
+            blocks.append({
+                "object": "block",
+                "type": "callout",
+                "callout": {
+                    "rich_text": parse_inline(body_text),
+                    "icon": {"type": "emoji", "emoji": icon},
+                    "color": color,
+                },
+            })
+
+        # ── <table> block ───────────────────────────────────────────────────
+        elif re.match(r'\s*<table[^>]*>', stripped, re.IGNORECASE):
+            header_row_attr = 'header-row="true"' in stripped.lower()
+            table_rows = []
+            i += 1
+            while i < len(lines) and not re.match(r'\s*</table>', lines[i], re.IGNORECASE):
+                row_line = lines[i].strip()
+                if re.match(r'<tr[^>]*>', row_line, re.IGNORECASE):
+                    cells = []
+                    i += 1
+                    while i < len(lines) and not re.match(r'\s*</tr>', lines[i], re.IGNORECASE):
+                        cell_line = lines[i].strip()
+                        td_m = re.match(r'<td[^>]*>(.*?)</td>', cell_line, re.IGNORECASE | re.DOTALL)
+                        if td_m:
+                            cells.append(parse_inline(td_m.group(1).strip()))
+                        elif cell_line and not re.match(r'</?t[dh]', cell_line, re.IGNORECASE):
+                            # multi-line cell content — append to last cell as text
+                            if cells:
+                                cells[-1].append({"type": "text", "text": {"content": " " + cell_line}})
+                        i += 1
+                    if cells:
+                        table_rows.append(cells)
+                else:
+                    i += 1
+                    continue
+            if table_rows:
+                col_count = max(len(r) for r in table_rows)
+                table_block = {
+                    "object": "block",
+                    "type": "table",
+                    "table": {
+                        "table_width": col_count,
+                        "has_column_header": header_row_attr,
+                        "has_row_header": False,
+                        "children": [],
+                    },
+                }
+                for row_cells in table_rows:
+                    # Pad short rows
+                    while len(row_cells) < col_count:
+                        row_cells.append([{"type": "text", "text": {"content": ""}}])
+                    table_block["table"]["children"].append({
+                        "object": "block",
+                        "type": "table_row",
+                        "table_row": {"cells": row_cells},
+                    })
+                blocks.append(table_block)
+
+        # ── <details> / toggle block ─────────────────────────────────────────
+        elif re.match(r'\s*<details[^>]*>', stripped, re.IGNORECASE):
+            i += 1
+            summary_text = "Details"
+            if i < len(lines):
+                sm = re.match(r'\s*<summary[^>]*>(.*?)</summary>', lines[i], re.IGNORECASE)
+                if sm:
+                    summary_text = sm.group(1).strip()
+                    i += 1
+            toggle_children = []
+            while i < len(lines) and not re.match(r'\s*</details>', lines[i], re.IGNORECASE):
+                inner = lines[i].strip()
+                if inner:
+                    # Numbered list items inside toggle
+                    num_m = re.match(r'^(\d+)\.\s+(.*)', inner)
+                    if num_m:
+                        toggle_children.append({
+                            "object": "block",
+                            "type": "numbered_list_item",
+                            "numbered_list_item": {"rich_text": parse_inline(num_m.group(2))},
+                        })
+                    elif inner.startswith("- "):
+                        toggle_children.append({
+                            "object": "block",
+                            "type": "bulleted_list_item",
+                            "bulleted_list_item": {"rich_text": parse_inline(inner[2:])},
+                        })
+                    else:
+                        toggle_children.append({
+                            "object": "block",
+                            "type": "paragraph",
+                            "paragraph": {"rich_text": parse_inline(inner)},
+                        })
+                i += 1
+            toggle_block = {
+                "object": "block",
+                "type": "toggle",
+                "toggle": {
+                    "rich_text": parse_inline(summary_text),
+                    "children": toggle_children,
+                },
+            }
+            blocks.append(toggle_block)
+
+        # ── Code fences ──────────────────────────────────────────────────────
+        elif line.startswith("```"):
             lang = line[3:].strip()
             code_lines = []
             i += 1
@@ -91,32 +273,49 @@ def markdown_to_blocks(markdown_text):
                     "language": lang or "plain text",
                 },
             })
+
+        # ── Headings ─────────────────────────────────────────────────────────
         elif line.startswith("### "):
             blocks.append({"object": "block", "type": "heading_3",
-                           "heading_3": {"rich_text": [{"type": "text", "text": {"content": line[4:]}}]}})
+                           "heading_3": {"rich_text": parse_inline(line[4:])}})
         elif line.startswith("## "):
             blocks.append({"object": "block", "type": "heading_2",
-                           "heading_2": {"rich_text": [{"type": "text", "text": {"content": line[3:]}}]}})
+                           "heading_2": {"rich_text": parse_inline(line[3:])}})
         elif line.startswith("# "):
             blocks.append({"object": "block", "type": "heading_1",
-                           "heading_1": {"rich_text": [{"type": "text", "text": {"content": line[2:]}}]}})
+                           "heading_1": {"rich_text": parse_inline(line[2:])}})
+
+        # ── Lists ─────────────────────────────────────────────────────────────
         elif line.startswith("- "):
             blocks.append({"object": "block", "type": "bulleted_list_item",
-                           "bulleted_list_item": {"rich_text": [{"type": "text", "text": {"content": line[2:]}}]}})
-        elif line.startswith("1. ") or (len(line) > 2 and line[0].isdigit() and line[1] == "."):
-            text = line.split(". ", 1)[1] if ". " in line else line
+                           "bulleted_list_item": {"rich_text": parse_inline(line[2:])}})
+        elif re.match(r'^\d+\.\s', line):
+            text = re.split(r'^\d+\.\s', line, maxsplit=1)[1]
             blocks.append({"object": "block", "type": "numbered_list_item",
-                           "numbered_list_item": {"rich_text": [{"type": "text", "text": {"content": text}}]}})
+                           "numbered_list_item": {"rich_text": parse_inline(text)}})
+
+        # ── Blockquote ────────────────────────────────────────────────────────
         elif line.startswith("> "):
             blocks.append({"object": "block", "type": "quote",
-                           "quote": {"rich_text": [{"type": "text", "text": {"content": line[2:]}}]}})
-        elif line.strip() == "---":
+                           "quote": {"rich_text": parse_inline(line[2:])}})
+
+        # ── Divider ───────────────────────────────────────────────────────────
+        elif stripped == "---":
             blocks.append({"object": "block", "type": "divider", "divider": {}})
-        elif line.strip() == "":
-            pass  # skip blank lines
+
+        # ── [INTERNAL_LINK] standalone line — skip ────────────────────────────
+        elif re.match(r'^\[INTERNAL_LINK:', stripped):
+            pass  # placeholder; no block needed
+
+        # ── Blank lines ───────────────────────────────────────────────────────
+        elif stripped == "":
+            pass
+
+        # ── Paragraph ─────────────────────────────────────────────────────────
         else:
             blocks.append({"object": "block", "type": "paragraph",
-                           "paragraph": {"rich_text": [{"type": "text", "text": {"content": line}}]}})
+                           "paragraph": {"rich_text": parse_inline(line)}})
+
         i += 1
 
     return blocks

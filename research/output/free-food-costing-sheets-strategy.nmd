@@ -1,0 +1,347 @@
+# Free Food-Costing Sheets Strategy
+
+## Purpose
+
+This note captures research on the free spreadsheet/template landscape for restaurant food costing and inventory management. It is intended as reusable context for future agents working on strategy, product planning, SEO, lead magnets, or template production for `Foodcosting.app`.
+
+## Executive Summary
+
+Free Excel and Google Sheets templates are a validated acquisition channel in restaurant software.
+
+The most relevant competitors are not generic template libraries. They are restaurant SaaS companies using spreadsheets as top-of-funnel assets, then moving users toward software once spreadsheet limits become painful.
+
+The strongest opportunity for `Foodcosting.app` is not to publish many thin templates. It is to publish a focused family of genuinely useful Google Sheets products that:
+
+- solve common restaurant costing workflows
+- feel modern and easy to use
+- are designed for Google Sheets first, with Excel compatibility second
+- use real food-costing logic, not generic spreadsheet layouts
+- naturally transition users into the app for automation, collaboration, and multi-location control
+
+## Core Market Takeaways
+
+- Free sheet/template strategy is common in restaurant and hospitality SaaS.
+- Inventory, food cost %, recipe costing, COGS, and par sheets are the most common spreadsheet categories.
+- Most providers pair the template with educational content and a soft or direct upsell into software.
+- The market is active, but many assets are still dated, spreadsheet-heavy, or poorly differentiated.
+- There is room to win with better UX, stronger Google Sheets-native design, and a clearer spreadsheet-to-app journey.
+
+## Most Relevant Competitors
+
+### Apicbase
+
+Positioning:
+Free food cost spreadsheet for Excel and Google Sheets, tied directly to recipe costing, menu pricing, COGS control, and theoretical margin tracking.
+
+What stands out:
+
+- strong spreadsheet-to-software bridge
+- recipe and menu pricing focus
+- cost updates propagate when ingredient prices change
+- includes utility and preparation costs
+- upsell clearly framed around variance control, inventory, purchasing, and multi-unit operations
+
+Strategic read:
+Best model for how to use a free sheet as the first rung of a product ladder.
+
+Source:
+https://get.apicbase.com/food-cost-spreadsheet/
+
+### Supy
+
+Positioning:
+Free restaurant inventory template in Excel, Google Sheets, and PDF, packaged like lightweight software.
+
+What stands out:
+
+- modern packaging
+- clear multi-tab architecture
+- strong onboarding and how-to guidance
+- settings, item master, stock count, and summary report structure
+- explicit content about essential spreadsheet columns and the operational limits of spreadsheets
+
+Known 2026 structure:
+
+- How To Use
+- Settings
+- Item Master
+- Kitchen Stock Count
+- Bar Stock Count
+- Summary Report
+
+Strategic read:
+Best reference for how to make a spreadsheet feel like a system rather than a blank template.
+
+Sources:
+https://supy.io/blog/free-restaurant-inventory-management-template
+https://supy.io/blog/learn-restaurant-inventory-spreadsheet-guide
+
+### RestaurantOwner
+
+Positioning:
+Deep menu and recipe costing workbook for serious operators.
+
+What stands out:
+
+- inventory master converts purchase unit cost to recipe unit cost
+- support for ingredients, menu items, and sub-recipes
+- dropdown-based entry
+- automatic recalculation when ingredient prices change
+- printable recipe cards without cost info
+- real workbook depth rather than a simple one-tab sheet
+
+Strategic read:
+Best reference for spreadsheet logic and real-world costing complexity.
+
+Source:
+https://www.restaurantowner.com/public/DOWNLOAD-Menu-Recipe-Cost-Spreadsheet-Template-2.cfm
+
+### TouchBistro
+
+Positioning:
+Educational content plus downloadable templates for inventory and par management.
+
+What stands out:
+
+- strong content-wrapper approach
+- beginner-friendly explanations
+- adjacent operational templates like inventory and par sheets
+- useful examples of how to make a template page rank and teach
+
+Strategic read:
+Best reference for pairing downloadable sheets with SEO and educational content.
+
+Sources:
+https://www.touchbistro.com/blog/restaurant-inventory-template/
+https://www.touchbistro.com/blog/restaurant-par-sheet-template/
+
+### 7shifts
+
+Positioning:
+Simple food cost percentage template used as top-of-funnel acquisition.
+
+What stands out:
+
+- low cognitive load
+- narrow and clear use case
+- very direct CTA into the product
+- strong awareness-stage utility
+
+Strategic read:
+Best reference for lightweight, easy-to-adopt sheet offers.
+
+Source:
+https://www.7shifts.com/resources/templates/restaurant-food-cost-template/
+
+### Backbar
+
+Positioning:
+Template cluster strategy focused on inventory, COGS, bar operations, and adjacent calculators.
+
+What stands out:
+
+- not just one template, but a family of related resources
+- inventory, COGS, par worksheet, liquor cost, pour cost, and related tools
+- good example of turning templates into a resource hub
+
+Strategic read:
+Best reference for cluster strategy and resource-library thinking.
+
+Sources:
+https://www.getbackbar.com/bar-inventory-spreadsheet-excel-template
+https://www.getbackbar.com/cost-goods-sold-calculator-template-restaurant-bar
+
+### Lineup.ai
+
+Positioning:
+Simple, approachable restaurant inventory spreadsheet template.
+
+What stands out:
+
+- beginner-friendly
+- easy to understand
+- lower complexity than Supy or RestaurantOwner
+- good example of accessible packaging for smaller operators
+
+Strategic read:
+Best reference for a low-friction entry-level template.
+
+Source:
+https://www.lineup.ai/free-restaurant-templates/inventory-sheet/
+
+## Competitor Pattern Summary
+
+### Pattern 1: Article + Template
+
+Most strong providers wrap the sheet in an explanatory landing page rather than offering only a raw file.
+
+Implication:
+Each `Foodcosting.app` sheet should have its own SEO-friendly landing page with guidance, examples, and CTAs.
+
+### Pattern 2: Spreadsheet First, Software Second
+
+Better providers explicitly frame the sheet as a useful first step, while making it clear that software becomes valuable when complexity increases.
+
+Implication:
+The upsell should happen at natural pain points, not as a hard sell.
+
+### Pattern 3: System Sheets Beat Blank Sheets
+
+The strongest spreadsheet products feel structured. They often include a settings area, master data, calculation sheets, and summary/report tabs.
+
+Implication:
+Templates should feel like products, not freebies.
+
+### Pattern 4: Clusters Beat One-Off Downloads
+
+Providers with several related templates and calculators create stronger brand association and more internal linking opportunities.
+
+Implication:
+Think in terms of a Google Sheets product line, not isolated downloads.
+
+### Pattern 5: Inventory and Food Cost Are the Main Entry Points
+
+The most common and visible sheet categories are:
+
+- inventory
+- food cost percentage
+- recipe and menu costing
+- COGS
+- par levels
+
+Implication:
+Start with familiar demand before moving into more specialized tools.
+
+## Strategic Gap for Foodcosting.app
+
+Very few competitors combine all of the following at once:
+
+- modern UX
+- Google Sheets-native design
+- serious food-costing logic
+- a cohesive family of related templates
+- a clear transition into a dedicated food-costing app
+
+This is likely the best opening for `Foodcosting.app`.
+
+Recommended positioning:
+
+`Free Google Sheets that restaurant teams actually want to use. Built for real food costing, not generic spreadsheet clutter. When you outgrow the sheet, Foodcosting.app is the next step.`
+
+## Recommended Product Structure
+
+Use a two-track strategy.
+
+### Track 1: Quick Sheets
+
+Purpose:
+Simple, high-intent, easy-to-adopt resources for search and lead capture.
+
+Suggested sheets:
+
+- Food Cost Percentage Sheet
+- Prime Cost Sheet
+- Par Level Sheet
+- Menu Price Calculator Sheet
+
+Primary competitor references:
+
+- 7shifts
+- TouchBistro
+- Lineup.ai
+
+### Track 2: System Sheets
+
+Purpose:
+Richer, multi-tab spreadsheets that act like lightweight operating systems.
+
+Suggested sheets:
+
+- Recipe and Menu Costing Workbook
+- Inventory and COGS Workbook
+- Yield and Portion Cost Workbook
+
+Primary competitor references:
+
+- Apicbase
+- Supy
+- RestaurantOwner
+
+## Initial Build Priorities
+
+Recommended order:
+
+1. Recipe and Menu Costing Workbook
+2. Inventory and COGS Workbook
+3. Food Cost Percentage Quick Sheet
+4. Par Level and Order Guide Sheet
+5. Yield and Edible Portion Sheet
+
+Why this order:
+
+- strong alignment with the core `Foodcosting.app` product
+- highest market familiarity
+- best bridge from spreadsheet value to app value
+- mix of simple wins and more defensible system assets
+
+## Design and UX Guidance
+
+Future sheet production should follow these principles:
+
+- Design for Google Sheets first.
+- Preserve Excel compatibility where practical.
+- Include a `Start Here` or `How To Use` tab.
+- Use a `Settings` tab for shared variables.
+- Use an `Ingredient Master` or equivalent master-data sheet.
+- Include a clear summary or dashboard tab.
+- Use validation, dropdowns, protected formulas, and input highlighting.
+- Make the sheet pleasant and clean, not visually stale.
+- Keep the free version genuinely useful.
+
+## Upsell Strategy
+
+The sheet should remain valuable on its own. The app upgrade should appear when spreadsheet limitations become obvious.
+
+Best upsell moments:
+
+- updating ingredient costs across many recipes
+- keeping multiple locations aligned
+- tracking actual vs theoretical food cost
+- maintaining supplier and purchase data
+- preserving history and auditability
+- collaborating across a team
+
+Recommended ladder:
+
+1. Free Google Sheet
+2. Optional web calculator or companion page
+3. Free `Foodcosting.app` account
+4. Paid app for automation and scale
+
+## What Not To Do
+
+- Do not publish many thin or nearly identical templates.
+- Do not make the templates feel like fake lead magnets.
+- Do not over-gate value before the user sees the sheet structure or utility.
+- Do not rely on generic spreadsheet layouts that ignore kitchen realities like unit conversion, sub-recipes, or yield.
+
+## Suggested Next-Step Work for Agents
+
+- specify the first five Google Sheets products in detail
+- define tab structure and formulas for each sheet
+- draft landing-page copy and CTA strategy for each asset
+- identify naming conventions and SEO angles
+- create a reusable template framework across the full sheet family
+
+## Source List
+
+- Apicbase: https://get.apicbase.com/food-cost-spreadsheet/
+- Supy template: https://supy.io/blog/free-restaurant-inventory-management-template
+- Supy guide: https://supy.io/blog/learn-restaurant-inventory-spreadsheet-guide
+- RestaurantOwner: https://www.restaurantowner.com/public/DOWNLOAD-Menu-Recipe-Cost-Spreadsheet-Template-2.cfm
+- TouchBistro inventory: https://www.touchbistro.com/blog/restaurant-inventory-template/
+- TouchBistro par sheet: https://www.touchbistro.com/blog/restaurant-par-sheet-template/
+- 7shifts food cost template: https://www.7shifts.com/resources/templates/restaurant-food-cost-template/
+- Backbar inventory: https://www.getbackbar.com/bar-inventory-spreadsheet-excel-template
+- Backbar COGS: https://www.getbackbar.com/cost-goods-sold-calculator-template-restaurant-bar
+- Lineup.ai inventory: https://www.lineup.ai/free-restaurant-templates/inventory-sheet/
