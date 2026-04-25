@@ -137,8 +137,10 @@ Common issues:
 cd "c:/Users/admin/Documents/Foodcosting.app" && \
   python scripts/notion/update_page.py \
   --page-id <script-page-id> \
-  --properties '{"Status": "Rendered"}'
+  --properties '{"Status": "Rendered", "Output Path": "pipeline/out/YYYY-MM-DD-[slug].mp4"}'
 ```
+
+Replace `YYYY-MM-DD-[slug]` with the actual output filename used in step A3.
 
 ### A5 - Confirm output
 
