@@ -20,7 +20,7 @@ export const QuickMath: React.FC<QuickMathProps> = ({
 }) => {
   const pal = getPalette(p);
   const setupEnd = Math.floor(durationInFrames * 0.2);
-  const calcEnd = Math.floor(durationInFrames * 0.8);
+  const calcEnd = Math.floor(durationInFrames * 0.70);
 
   return (
     <AbsoluteFill style={{ backgroundColor: pal.bg }}>
