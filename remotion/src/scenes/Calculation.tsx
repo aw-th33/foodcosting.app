@@ -26,13 +26,12 @@ export const Calculation: React.FC<CalculationProps> = ({
   const { fps } = useVideoConfig();
   const pal = getPalette(p);
 
-  const resultDelay = (ingredients.length + 2) * 25;
   const resultScale = spring({
-    frame: Math.max(0, frame - resultDelay),
+    frame,
     fps,
     config: { damping: 12, stiffness: 160 },
   });
-  const resultOpacity = interpolate(frame, [resultDelay, resultDelay + 10], [0, 1], {
+  const resultOpacity = interpolate(frame, [0, 10], [0, 1], {
     extrapolateRight: 'clamp',
   });
 
@@ -63,37 +62,25 @@ export const Calculation: React.FC<CalculationProps> = ({
       </div>
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        {ingredients.map((item, i) => {
-          const delay = i * 25;
-          const lineOpacity = interpolate(frame, [delay, delay + 20], [0, 1], {
-            extrapolateRight: 'clamp',
-          });
-          const translateX = interpolate(frame, [delay, delay + 20], [-30, 0], {
-            extrapolateRight: 'clamp',
-          });
-
-          return (
-            <div
-              key={`${item.label}-${i}`}
-              style={{
-                opacity: lineOpacity,
-                transform: `translateX(${translateX}px)`,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'baseline',
-                padding: '20px 0',
-                borderBottom: `1px dashed ${pal.divider}`,
-              }}
-            >
-              <span style={{ fontFamily: font.mono, fontSize: 28, color: pal.muted }}>
-                {item.label}
-              </span>
-              <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: 36, color: pal.fg }}>
-                {item.value}
-              </span>
-            </div>
-          );
-        })}
+        {ingredients.map((item, i) => (
+          <div
+            key={`${item.label}-${i}`}
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'baseline',
+              padding: '20px 0',
+              borderBottom: `1px dashed ${pal.divider}`,
+            }}
+          >
+            <span style={{ fontFamily: font.mono, fontSize: 28, color: pal.muted }}>
+              {item.label}
+            </span>
+            <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: 36, color: pal.fg }}>
+              {item.value}
+            </span>
+          </div>
+        ))}
 
         <div
           style={{
@@ -102,7 +89,6 @@ export const Calculation: React.FC<CalculationProps> = ({
             alignItems: 'baseline',
             padding: '20px 0',
             borderBottom: `2px dashed ${pal.dividerHeavy}`,
-            opacity: interpolate(frame, [ingredients.length * 25, ingredients.length * 25 + 20], [0, 1], { extrapolateRight: 'clamp' }),
           }}
         >
           <span style={{ fontFamily: font.mono, fontWeight: 700, fontSize: 28, color: pal.fg }}>
@@ -120,7 +106,6 @@ export const Calculation: React.FC<CalculationProps> = ({
             alignItems: 'baseline',
             padding: '20px 0',
             borderBottom: `1px dashed ${pal.divider}`,
-            opacity: interpolate(frame, [(ingredients.length + 1) * 25, (ingredients.length + 1) * 25 + 20], [0, 1], { extrapolateRight: 'clamp' }),
           }}
         >
           <span style={{ fontFamily: font.mono, fontSize: 28, color: pal.muted }}>
