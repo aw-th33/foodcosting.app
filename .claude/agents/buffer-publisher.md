@@ -63,9 +63,11 @@ Read `pipeline/context/buffer-source-page.json`. Extract:
 
 If `Output Path` is missing or empty: set Status to `Buffer Failed`, report "Output Path property is empty — re-run remotion-renderer to populate it", and stop.
 
+If the `Output Path` value does not start with `pipeline/out/`: set Status to `Buffer Failed`, report the malformed path, and stop.
+
 ### A2 — Parse captions from body
 
-Scan the body text for a `CAPTION:` block followed by a `HASHTAGS:` line:
+Find the first occurrence of `CAPTION:` in the body text. If multiple `CAPTION:` blocks are found, use the first one. The expected format is a `CAPTION:` block followed by a `HASHTAGS:` line:
 
 ```
 CAPTION:
@@ -91,7 +93,7 @@ If no `CAPTION:` block is found: set Status to `Buffer Failed`, report "No CAPTI
 The `Output Path` is a directory. List all `slide-*.png` files inside it and sort numerically:
 
 ```bash
-ls "c:/Users/admin/Documents/Foodcosting.app/<Output Path>"slide-*.png 2>/dev/null | sort -V
+ls "c:/Users/admin/Documents/Foodcosting.app/<Output Path>/slide-"*.png 2>/dev/null | sort -t- -k2 -n
 ```
 
 Fail conditions (set Status to `Buffer Failed` and stop):
@@ -103,7 +105,7 @@ Record the full list of slide paths as relative paths from the repo root (e.g. `
 
 ### A4 — Build and write the manifest
 
-Write `pipeline/context/buffer-manifest-temp.json`:
+Write `pipeline/context/buffer-manifest-temp.json` (This is a temp scratch file — re-runs overwrite it deliberately.):
 
 ```json
 {
@@ -135,6 +137,8 @@ cd "c:/Users/admin/Documents/Foodcosting.app" && \
   --force
 ```
 
+(`--force` is required because `buffer-manifest-temp.json` is reused across runs; without it, `create_drafts.py` raises a duplicate-detection error.)
+
 If the script exits with a non-zero code: set Status to `Buffer Failed`, surface the full error output, and stop.
 
 ### A6 — Mark as Buffered
@@ -163,6 +167,8 @@ Assets uploaded: <slide count> slides
 Status: Buffered — review and schedule inside Buffer
 ```
 
+If `buffer-drafts-created.json` contains a non-empty `warnings` array, list each warning in the summary under a `Warnings:` heading so Ahmed can review before scheduling.
+
 ---
 
 ## Path B — Publishing a short-form video
@@ -179,10 +185,12 @@ cd "c:/Users/admin/Documents/Foodcosting.app" && \
 Read `pipeline/context/buffer-source-page.json`. Extract:
 
 - `Output Path` from properties — this is the rendered MP4 file path (e.g. `pipeline/out/2026-04-25-ideal-food-cost-percentage-food-trucks.mp4`)
-- `Title` from properties — used as the manifest title. If `Title` is empty, use the Notion page name derived from the URL slug.
+- `Title` from properties — used as the manifest title. If `Title` is empty, derive the title by taking the last path segment of the Notion page URL, replacing hyphens with spaces, and title-casing it (e.g. `food-cost-percentage-2026-04-25` → `Food Cost Percentage 2026 04 25`).
 - Full `body` text — for caption parsing
 
 If `Output Path` is missing or empty: set Status to `Buffer Failed`, report "Output Path property is empty — re-run remotion-renderer to populate it", and stop.
+
+If the `Output Path` value does not start with `pipeline/out/`: set Status to `Buffer Failed`, report the malformed path, and stop.
 
 ### B2 — Parse captions from body
 
@@ -222,7 +230,7 @@ If the file does not exist: set Status to `Buffer Failed`, report the missing pa
 
 ### B4 — Build and write the manifest
 
-Write `pipeline/context/buffer-manifest-temp.json`:
+Write `pipeline/context/buffer-manifest-temp.json` (This is a temp scratch file — re-runs overwrite it deliberately.):
 
 ```json
 {
@@ -252,6 +260,8 @@ cd "c:/Users/admin/Documents/Foodcosting.app" && \
   --force
 ```
 
+(`--force` is required because `buffer-manifest-temp.json` is reused across runs; without it, `create_drafts.py` raises a duplicate-detection error.)
+
 If the script exits with a non-zero code: set Status to `Buffer Failed`, surface the full error output, and stop.
 
 ### B6 — Mark as Buffered
@@ -280,6 +290,8 @@ Drafts:
 Assets uploaded: 1 video
 Status: Buffered — review and schedule inside Buffer
 ```
+
+If `buffer-drafts-created.json` contains a non-empty `warnings` array, list each warning in the summary under a `Warnings:` heading so Ahmed can review before scheduling.
 
 ---
 
