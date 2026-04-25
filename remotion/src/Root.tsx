@@ -71,7 +71,7 @@ export const RemotionRoot = () => {
       <Composition
         id="FoodCostTip"
         component={FoodCostTip as unknown as React.FC<Record<string, unknown>>}
-        durationInFrames={1650}
+        durationInFrames={450}
         fps={30}
         width={1080}
         height={1920}
@@ -86,7 +86,7 @@ export const RemotionRoot = () => {
           ],
           cta: 'Know your numbers.\nPrice with confidence.',
           audioSrc: null,
-          durationInFrames: 1650,
+          durationInFrames: 450,
           palette: 'dark' as const,
         }}
       />
@@ -94,7 +94,7 @@ export const RemotionRoot = () => {
       <Composition
         id="MythBusting"
         component={MythBusting as unknown as React.FC<Record<string, unknown>>}
-        durationInFrames={1500}
+        durationInFrames={450}
         fps={30}
         width={1080}
         height={1920}
@@ -124,7 +124,7 @@ export const RemotionRoot = () => {
           ],
           cta: 'Stop guessing.\nStart calculating.',
           audioSrc: null,
-          durationInFrames: 1500,
+          durationInFrames: 450,
           palette: 'dark' as const,
         }}
       />
@@ -132,7 +132,7 @@ export const RemotionRoot = () => {
       <Composition
         id="QuickMath"
         component={QuickMath as unknown as React.FC<Record<string, unknown>>}
-        durationInFrames={1050}
+        durationInFrames={450}
         fps={30}
         width={1080}
         height={1920}
@@ -150,7 +150,7 @@ export const RemotionRoot = () => {
           resultCaption: 'minimum menu price',
           cta: 'Price every item\nin minutes.',
           audioSrc: null,
-          durationInFrames: 1050,
+          durationInFrames: 450,
           palette: 'dark' as const,
         }}
       />
