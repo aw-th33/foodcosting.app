@@ -3,13 +3,11 @@ import { AbsoluteFill, Audio, Sequence } from 'remotion';
 import type { EducationalTipProps } from './carousel/types';
 import { getPalette } from './carousel/tokens';
 import { Hook } from './scenes/Hook';
-import { Problem } from './scenes/Problem';
 import { Tip } from './scenes/Tip';
 import { CTA } from './scenes/CTA';
 
 export const FoodCostTip: React.FC<EducationalTipProps> = ({
   hook,
-  problem,
   tipLines,
   cta,
   audioSrc,
@@ -18,9 +16,8 @@ export const FoodCostTip: React.FC<EducationalTipProps> = ({
 }) => {
   const pal = getPalette(p);
 
-  const hookEnd = Math.floor(durationInFrames * 0.12);
-  const problemEnd = Math.floor(durationInFrames * 0.28);
-  const tipEnd = Math.floor(durationInFrames * 0.82);
+  const hookEnd = Math.floor(durationInFrames * 0.20);
+  const tipEnd = Math.floor(durationInFrames * 0.80);
 
   return (
     <AbsoluteFill style={{ backgroundColor: pal.bg }}>
@@ -30,11 +27,7 @@ export const FoodCostTip: React.FC<EducationalTipProps> = ({
         <Hook text={hook} palette={p} />
       </Sequence>
 
-      <Sequence from={hookEnd} durationInFrames={problemEnd - hookEnd}>
-        <Problem text={problem} palette={p} />
-      </Sequence>
-
-      <Sequence from={problemEnd} durationInFrames={tipEnd - problemEnd}>
+      <Sequence from={hookEnd} durationInFrames={tipEnd - hookEnd}>
         <Tip lines={tipLines} palette={p} />
       </Sequence>
 
