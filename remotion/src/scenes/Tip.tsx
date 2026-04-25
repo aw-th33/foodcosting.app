@@ -46,7 +46,7 @@ export const Tip: React.FC<TipProps> = ({
       <div style={{ width: '100%', borderTop: `1px dashed ${pal.divider}`, marginBottom: 32 }} />
 
       {lines.map((line, i) => {
-        const delay = i * 25;
+        const delay = i * 8;
         const lineOpacity = interpolate(frame, [delay, delay + 20], [0, 1], {
           extrapolateRight: 'clamp',
         });
