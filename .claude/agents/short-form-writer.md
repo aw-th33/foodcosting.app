@@ -115,6 +115,7 @@ For each script variant, produce a ready-to-use props block that maps directly t
     { "label": "...", "value": "..." }
   ],
   "cta": "...",
+  "voiceoverTranscript": "...",
   "audioSrc": null,
   "musicSrc": null,
   "durationInFrames": 450
@@ -127,8 +128,9 @@ Rules for props:
 - `problem`: max 12 words (note: the Problem scene is dropped from the 15s format — this field is preserved for the record but not rendered)
 - `tipLines`: 2-4 rows of label/value pairs
 - `cta`: max 10 words ending with "at foodcosting.app"
+- `voiceoverTranscript`: the spoken voiceover for this specific script — written for ~11 seconds at a relaxed pace (~130 wpm, ~24 words). This is what the viewer hears while the visuals play. It must match the hook and tip content — not be a generic food cost tip. Write it in a friendly, direct practitioner voice. No filler. Example: "Food trucks need tighter food cost targets than restaurants — no rent sounds like cushion, but it isn't. Your ceiling is 32%. If you're above it, reweigh your top three dishes before you touch your prices."
 - `durationInFrames`: always 450 (15 seconds at 30fps — the platform hard cap for Shorts/Reels)
-- `audioSrc`: always null here — the remotion-renderer injects the real ElevenLabs path at render time
+- `audioSrc`: always null here — the remotion-renderer generates and injects the real ElevenLabs MP3 at render time using voiceoverTranscript
 - `musicSrc`: always null here — the remotion-renderer injects the background music path at render time
 
 ### Step 5 - Save the script to Notion

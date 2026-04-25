@@ -69,15 +69,35 @@ Read `pipeline/context/script.json`. Find the `### Remotion props (Variant A/B)`
     { "label": "string", "value": "string" }
   ],
   "cta": "string",
+  "voiceoverTranscript": "string",
   "audioSrc": null,
   "musicSrc": null,
   "durationInFrames": 450
 }
 ```
 
-If props are missing or malformed, stop and report clearly. Do not invent props.
+If props are missing or malformed, stop and report clearly. Do not invent props. `voiceoverTranscript` is required — if it is missing from the props block, stop and report: the short-form-writer needs to be re-run to add it.
 
-### A2 - Update Root.tsx
+### A2 - Generate the voiceover MP3
+
+Extract `voiceoverTranscript` from the props. Derive a filename slug from the script page title (e.g. `ideal-food-cost-percentage-food-trucks-2026-04-25`). Then generate a fresh voiceover MP3 for this specific script:
+
+```bash
+cd "c:/Users/admin/Documents/Foodcosting.app" && \
+  python scripts/elevenlabs/generate_voiceovers.py \
+  --text "<voiceoverTranscript text>" \
+  --output "remotion/public/audio/<slug>-voice.mp3"
+```
+
+Confirm the file was created and is non-empty:
+
+```bash
+ls -lh "c:/Users/admin/Documents/Foodcosting.app/remotion/public/audio/<slug>-voice.mp3"
+```
+
+Expected: file between 50KB and 300KB. If smaller than 10KB, the API returned an error — check the ElevenLabs API key.
+
+### A3 - Update Root.tsx
 
 Read the current Root.tsx:
 
@@ -85,14 +105,14 @@ Read the current Root.tsx:
 cat "c:/Users/admin/Documents/Foodcosting.app/remotion/src/Root.tsx"
 ```
 
-Update the `defaultProps` block inside the `FoodCostTip` `<Composition>` only. Apply the extracted props, but **always override** `audioSrc` and `musicSrc` with the real static file paths — the Notion record stores `null` for these by convention, and the renderer is responsible for injecting them:
+Update the `defaultProps` block inside the `FoodCostTip` `<Composition>` only. Apply the extracted props, but **always override** `audioSrc` and `musicSrc` with the real static file paths — use the slug-specific voice MP3 generated in A2:
 
 ```tsx
-audioSrc: staticFile('audio/foodcosttip-voice.mp3'),
+audioSrc: staticFile('audio/<slug>-voice.mp3'),
 musicSrc: staticFile('audio/bg-music.mp3'),
 ```
 
-Make sure `staticFile` is imported from `'remotion'` at the top of Root.tsx (it already is — do not add a duplicate import). Also update `durationInFrames` to 450. Do not touch the `Carousel`, `MythBusting`, or `QuickMath` compositions or any other part of the file.
+Do not include `voiceoverTranscript` in the Root.tsx defaultProps — it is not a Remotion prop. Make sure `staticFile` is imported from `'remotion'` at the top of Root.tsx (it already is — do not add a duplicate import). Also update `durationInFrames` to 450. Do not touch the `Carousel`, `MythBusting`, or `QuickMath` compositions or any other part of the file.
 
 Read Root.tsx again to confirm the change before rendering.
 

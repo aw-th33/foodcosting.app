@@ -1,3 +1,4 @@
+import argparse
 import os
 import pathlib
 import requests
@@ -19,7 +20,7 @@ VOICE_SETTINGS = {
     "speed": 0.95,
 }
 
-SCRIPTS = {
+BATCH_SCRIPTS = {
     "foodcosttip": (
         "Most operators check food cost after the week's done — but by then the margin's already gone. "
         "The fix is simple: cost the plate before you price it, and update it every time your supplier "
@@ -37,9 +38,6 @@ SCRIPTS = {
     ),
 }
 
-OUTPUT_DIR = pathlib.Path("remotion/public/audio")
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
 URL = f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}"
 HEADERS = {
     "xi-api-key": ELEVENLABS_API_KEY,
@@ -47,8 +45,9 @@ HEADERS = {
     "Accept": "audio/mpeg",
 }
 
-for name, text in SCRIPTS.items():
-    print(f"Generating {name}...")
+
+def generate(text: str, out_path: pathlib.Path) -> None:
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     payload = {
         "text": text,
         "model_id": MODEL_ID,
@@ -56,10 +55,30 @@ for name, text in SCRIPTS.items():
     }
     response = requests.post(URL, headers=HEADERS, json=payload, timeout=30)
     response.raise_for_status()
-
-    out_path = OUTPUT_DIR / f"{name}-voice.mp3"
     out_path.write_bytes(response.content)
     size_kb = len(response.content) / 1024
     print(f"  Saved {out_path} ({size_kb:.1f} KB)")
 
-print("Done.")
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Generate ElevenLabs voiceover MP3s")
+    parser.add_argument("--text", help="Transcript text for a single voiceover")
+    parser.add_argument("--output", help="Output path for single voiceover (e.g. remotion/public/audio/my-video-voice.mp3)")
+    args = parser.parse_args()
+
+    if args.text and args.output:
+        # Single-shot mode: called by remotion-renderer for a specific script
+        print(f"Generating single voiceover -> {args.output}")
+        generate(args.text, pathlib.Path(args.output))
+        print("Done.")
+    else:
+        # Batch mode: regenerate all three template voiceovers
+        output_dir = pathlib.Path("remotion/public/audio")
+        for name, text in BATCH_SCRIPTS.items():
+            print(f"Generating {name}...")
+            generate(text, output_dir / f"{name}-voice.mp3")
+        print("Done.")
+
+
+if __name__ == "__main__":
+    main()
