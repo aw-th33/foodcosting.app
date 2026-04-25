@@ -4,7 +4,6 @@ import type { MythBustingProps } from './carousel/types';
 import { getPalette } from './carousel/tokens';
 import { Myth } from './scenes/Myth';
 import { Reality } from './scenes/Reality';
-import { Proof } from './scenes/Proof';
 import { CTA } from './scenes/CTA';
 
 export const MythBusting: React.FC<MythBustingProps> = ({
@@ -12,17 +11,15 @@ export const MythBusting: React.FC<MythBustingProps> = ({
   reality,
   realityNumber,
   realityCaption,
-  proofTitle,
-  proofBlocks,
   cta,
   audioSrc,
   durationInFrames,
   palette: p = 'dark',
 }) => {
   const pal = getPalette(p);
-  const mythEnd = Math.floor(durationInFrames * 0.2);
-  const realityEnd = Math.floor(durationInFrames * 0.4);
-  const proofEnd = Math.floor(durationInFrames * 0.8);
+
+  const mythEnd = Math.floor(durationInFrames * 0.30);
+  const realityEnd = Math.floor(durationInFrames * 0.60);
 
   return (
     <AbsoluteFill style={{ backgroundColor: pal.bg }}>
@@ -41,11 +38,7 @@ export const MythBusting: React.FC<MythBustingProps> = ({
         />
       </Sequence>
 
-      <Sequence from={realityEnd} durationInFrames={proofEnd - realityEnd}>
-        <Proof title={proofTitle} blocks={proofBlocks} palette={p} />
-      </Sequence>
-
-      <Sequence from={proofEnd} durationInFrames={durationInFrames - proofEnd}>
+      <Sequence from={realityEnd} durationInFrames={durationInFrames - realityEnd}>
         <CTA text={cta} palette={p} />
       </Sequence>
     </AbsoluteFill>
