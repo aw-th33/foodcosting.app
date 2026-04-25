@@ -276,8 +276,10 @@ This produces one PNG per slide: `slide-1.png`, `slide-2.png`, etc.
 cd "c:/Users/admin/Documents/Foodcosting.app" && \
   python scripts/notion/update_page.py \
   --page-id <carousel-page-id> \
-  --properties '{"Status": "Rendered"}'
+  --properties '{"Status": "Rendered", "Output Path": "pipeline/out/YYYY-MM-DD-[slug]-carousel/"}'
 ```
+
+Replace `YYYY-MM-DD-[slug]` with the actual output directory name used in step B3.
 
 ### B5 - Confirm output
 
