@@ -71,6 +71,7 @@ export interface EducationalTipProps {
   tipLines: TipLine[];
   cta: string;
   audioSrc: string | null;
+  musicSrc: string | null;
   durationInFrames: number;
   palette?: Palette;
 }
@@ -87,6 +88,7 @@ export interface MythBustingProps {
   }[];
   cta: string;
   audioSrc: string | null;
+  musicSrc: string | null;
   durationInFrames: number;
   palette?: Palette;
 }
@@ -100,6 +102,7 @@ export interface QuickMathProps {
   resultCaption: string;
   cta: string;
   audioSrc: string | null;
+  musicSrc: string | null;
   durationInFrames: number;
   palette?: Palette;
 }

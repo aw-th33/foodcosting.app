@@ -15,6 +15,7 @@ export const QuickMath: React.FC<QuickMathProps> = ({
   resultCaption,
   cta,
   audioSrc,
+  musicSrc,
   durationInFrames,
   palette: p = 'dark',
 }) => {
@@ -25,6 +26,7 @@ export const QuickMath: React.FC<QuickMathProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor: pal.bg }}>
       {audioSrc && <Audio src={audioSrc} />}
+      {musicSrc && <Audio src={musicSrc} volume={0.15} />}
 
       <Sequence from={0} durationInFrames={setupEnd}>
         <Setup question={question} palette={p} />

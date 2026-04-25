@@ -1,5 +1,5 @@
 import React from 'react';
-import { Composition } from 'remotion';
+import { Composition, staticFile } from 'remotion';
 import { FoodCostTip } from './FoodCostTip';
 import { MythBusting } from './MythBusting';
 import { QuickMath } from './QuickMath';
@@ -85,7 +85,8 @@ export const RemotionRoot = () => {
             { label: 'Target range', value: '28-35%' },
           ],
           cta: 'Know your numbers.\nPrice with confidence.',
-          audioSrc: '/audio/foodcosttip-voice.mp3',
+          audioSrc: staticFile('audio/foodcosttip-voice.mp3'),
+          musicSrc: staticFile('audio/bg-music.mp3'),
           durationInFrames: 450,
           palette: 'dark' as const,
         }}
@@ -123,7 +124,8 @@ export const RemotionRoot = () => {
             },
           ],
           cta: 'Stop guessing.\nStart calculating.',
-          audioSrc: '/audio/mythbusting-voice.mp3',
+          audioSrc: staticFile('audio/mythbusting-voice.mp3'),
+          musicSrc: staticFile('audio/bg-music.mp3'),
           durationInFrames: 450,
           palette: 'dark' as const,
         }}
@@ -149,7 +151,8 @@ export const RemotionRoot = () => {
           result: '$11.67',
           resultCaption: 'minimum menu price',
           cta: 'Price every item\nin minutes.',
-          audioSrc: '/audio/quickmath-voice.mp3',
+          audioSrc: staticFile('audio/quickmath-voice.mp3'),
+          musicSrc: staticFile('audio/bg-music.mp3'),
           durationInFrames: 450,
           palette: 'dark' as const,
         }}

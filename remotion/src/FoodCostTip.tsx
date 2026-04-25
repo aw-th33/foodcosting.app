@@ -11,6 +11,7 @@ export const FoodCostTip: React.FC<EducationalTipProps> = ({
   tipLines,
   cta,
   audioSrc,
+  musicSrc,
   durationInFrames,
   palette: p = 'dark',
 }) => {
@@ -22,6 +23,7 @@ export const FoodCostTip: React.FC<EducationalTipProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor: pal.bg }}>
       {audioSrc && <Audio src={audioSrc} />}
+      {musicSrc && <Audio src={musicSrc} volume={0.15} />}
 
       <Sequence from={0} durationInFrames={hookEnd}>
         <Hook text={hook} palette={p} />

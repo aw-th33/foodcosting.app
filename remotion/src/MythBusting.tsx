@@ -13,6 +13,7 @@ export const MythBusting: React.FC<MythBustingProps> = ({
   realityCaption,
   cta,
   audioSrc,
+  musicSrc,
   durationInFrames,
   palette: p = 'dark',
 }) => {
@@ -24,6 +25,7 @@ export const MythBusting: React.FC<MythBustingProps> = ({
   return (
     <AbsoluteFill style={{ backgroundColor: pal.bg }}>
       {audioSrc && <Audio src={audioSrc} />}
+      {musicSrc && <Audio src={musicSrc} volume={0.15} />}
 
       <Sequence from={0} durationInFrames={mythEnd}>
         <Myth text={myth} palette={p} />
