@@ -4,6 +4,7 @@ Create a new Notion page in a database with properties and a markdown body.
 Usage:
     python scripts/notion/create_page.py \\
         --database-id <id> \\
+        [--data-source-id <id>] \\
         --properties '{"Title": "My Post", "Status": "Ready"}' \\
         --body "## Intro\\n\\nContent here." \\
         --output pipeline/context/created.json
@@ -23,17 +24,17 @@ import argparse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _client import load_env, get_auth, notion_request, write_output
+from _client import load_env, get_auth, notion_request, write_output, get_schema, is_data_source_api
 
 
 def get_db_schema(api_key, api_version, database_id):
     """Fetch DB schema to know each property's type."""
     try:
-        db = notion_request(api_key, api_version, f"databases/{database_id}")
+        schema, _, _ = get_schema(api_key, api_version, database_id=database_id)
     except RuntimeError as e:
         print(f"ERROR fetching database schema: {e}", file=sys.stderr)
         sys.exit(1)
-    return db.get("properties", {})
+    return schema
 
 
 def build_property_value(name, value, schema):
@@ -121,17 +122,30 @@ def markdown_to_blocks(markdown_text):
     return blocks
 
 
-def create_page(api_key, api_version, database_id, properties_dict, body_markdown=None):
-    schema = get_db_schema(api_key, api_version, database_id)
+def create_page(api_key, api_version, database_id=None, properties_dict=None, body_markdown=None, data_source_id=None):
+    try:
+        schema, target_id, target_kind = get_schema(
+            api_key,
+            api_version,
+            database_id=database_id,
+            data_source_id=data_source_id,
+        )
+    except RuntimeError as e:
+        print(f"ERROR fetching schema: {e}", file=sys.stderr)
+        sys.exit(1)
 
     notion_properties = {}
-    for name, value in properties_dict.items():
+    for name, value in (properties_dict or {}).items():
         if value is None:
             continue
         notion_properties[name] = build_property_value(name, value, schema)
 
+    parent = {"type": "database_id", "database_id": target_id}
+    if target_kind == "data_source" or is_data_source_api(api_version):
+        parent = {"type": "data_source_id", "data_source_id": target_id}
+
     payload = {
-        "parent": {"database_id": database_id},
+        "parent": parent,
         "properties": notion_properties,
     }
 
@@ -149,12 +163,17 @@ def create_page(api_key, api_version, database_id, properties_dict, body_markdow
 
 def main():
     parser = argparse.ArgumentParser(description="Create a Notion page in a database")
-    parser.add_argument("--database-id", required=True)
+    parser.add_argument("--database-id", default=None)
+    parser.add_argument("--data-source-id", default=None, help="Notion data source ID for 2025-09-03+ API versions")
     parser.add_argument("--properties", required=True, help="Properties as JSON string")
     parser.add_argument("--body", default=None, help="Page body as markdown string")
     parser.add_argument("--body-file", default=None, help="Read body from a file instead of --body")
     parser.add_argument("--output", default=None, help="Output file path (default: stdout)")
     args = parser.parse_args()
+
+    if not args.database_id and not args.data_source_id:
+        print("ERROR: --database-id or --data-source-id is required", file=sys.stderr)
+        sys.exit(1)
 
     load_env()
     api_key, api_version = get_auth()
@@ -171,7 +190,14 @@ def main():
     if body:
         body = body.replace("\\n", "\n")
 
-    result = create_page(api_key, api_version, args.database_id, properties_dict, body)
+    result = create_page(
+        api_key,
+        api_version,
+        database_id=args.database_id,
+        data_source_id=args.data_source_id,
+        properties_dict=properties_dict,
+        body_markdown=body,
+    )
     write_output(result, args.output)
 
 

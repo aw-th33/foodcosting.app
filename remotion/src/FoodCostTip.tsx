@@ -1,62 +1,41 @@
-import { AbsoluteFill, Audio, Sequence, useVideoConfig } from 'remotion';
+import React from 'react';
+import { AbsoluteFill, Audio, Sequence } from 'remotion';
+import type { EducationalTipProps } from './carousel/types';
+import { getPalette } from './carousel/tokens';
 import { Hook } from './scenes/Hook';
-import { Problem } from './scenes/Problem';
 import { Tip } from './scenes/Tip';
 import { CTA } from './scenes/CTA';
 
-type TipLine = { label: string; value: string };
-
-type Props = {
-  hook: string;
-  problem: string;
-  tipLines: TipLine[];
-  cta: string;
-  audioSrc: string | null;
-  durationInFrames: number;
-};
-
-export const FoodCostTip = ({
+export const FoodCostTip: React.FC<EducationalTipProps> = ({
   hook,
-  problem,
   tipLines,
   cta,
   audioSrc,
+  musicSrc,
   durationInFrames,
-}: Props) => {
-  const fps = 30;
+  palette: p = 'dark',
+}) => {
+  const pal = getPalette(p);
 
-  // Scene timing — adjust these ratios to taste
-  const hookEnd =     Math.floor(durationInFrames * 0.12);  // ~first 12%
-  const problemEnd =  Math.floor(durationInFrames * 0.28);  // next 16%
-  const tipEnd =      Math.floor(durationInFrames * 0.82);  // bulk of video
-  // CTA runs from tipEnd to end
+  const hookEnd = Math.floor(durationInFrames * 0.20);
+  const tipEnd = Math.floor(durationInFrames * 0.80);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: '#0F1117' }}>
-
-      {/* Audio layer */}
+    <AbsoluteFill style={{ backgroundColor: pal.bg }}>
       {audioSrc && <Audio src={audioSrc} />}
+      {musicSrc && <Audio src={musicSrc} volume={0.15} />}
 
-      {/* Hook scene */}
       <Sequence from={0} durationInFrames={hookEnd}>
-        <Hook text={hook} />
+        <Hook text={hook} palette={p} />
       </Sequence>
 
-      {/* Problem scene */}
-      <Sequence from={hookEnd} durationInFrames={problemEnd - hookEnd}>
-        <Problem text={problem} />
+      <Sequence from={hookEnd} durationInFrames={tipEnd - hookEnd}>
+        <Tip lines={tipLines} palette={p} />
       </Sequence>
 
-      {/* Tip scene */}
-      <Sequence from={problemEnd} durationInFrames={tipEnd - problemEnd}>
-        <Tip lines={tipLines} />
-      </Sequence>
-
-      {/* CTA scene */}
       <Sequence from={tipEnd} durationInFrames={durationInFrames - tipEnd}>
-        <CTA text={cta} />
+        <CTA text={cta} palette={p} />
       </Sequence>
-
     </AbsoluteFill>
   );
 };

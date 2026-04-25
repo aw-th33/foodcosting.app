@@ -9,7 +9,7 @@ Usage:
 Output (stdout):
     { "id": "...", "url": "...", "updated": ["Status"] }
 
-The script fetches the page's parent database schema to map property types correctly.
+The script fetches the page's parent database or data source schema to map property types correctly.
 """
 
 import sys
@@ -18,8 +18,8 @@ import argparse
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from _client import load_env, get_auth, notion_request, write_output
-from create_page import get_db_schema, build_property_value
+from _client import load_env, get_auth, notion_request, write_output, get_page_schema
+from create_page import build_property_value
 
 
 def get_page_db_id(api_key, api_version, page_id):
@@ -37,8 +37,11 @@ def get_page_db_id(api_key, api_version, page_id):
 
 
 def update_page(api_key, api_version, page_id, properties_dict):
-    db_id = get_page_db_id(api_key, api_version, page_id)
-    schema = get_db_schema(api_key, api_version, db_id)
+    try:
+        schema, _ = get_page_schema(api_key, api_version, page_id)
+    except RuntimeError as e:
+        print(f"ERROR resolving page schema: {e}", file=sys.stderr)
+        sys.exit(1)
 
     notion_properties = {}
     for name, value in properties_dict.items():

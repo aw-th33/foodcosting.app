@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>foodcosting.app — Brand Book</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #111111;
+    --paper: #F8F6F0;
+    --receipt: #FFFFFF;
+    --faded: #6B6B66;
+    --divider: #DDD8CC;
+    --alert: #C0392B;
+    --healthy: #2E7D32;
+    --caution: #E68A00;
+    --dark-bg: #111111;
+    --dark-text: #F0ECE4;
+    --dark-faded: #888888;
+    --dark-divider: #333333;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  /* Receipt-style page header */
+  .brand-header {
+    text-align: center;
+    padding: 48px 0 56px;
+    border-bottom: 2px dashed var(--ink);
+    margin-bottom: 64px;
+  }
+  .brand-header .dashes {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--divider);
+    letter-spacing: 4px;
+    margin-bottom: 16px;
+  }
+  .brand-header h1 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+  .brand-header .subtitle {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 13px;
+    color: var(--faded);
+    letter-spacing: 0.05em;
+  }
+
+  /* Sections */
+  section {
+    margin-bottom: 72px;
+  }
+  section h2 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  section .section-desc {
+    font-size: 15px;
+    color: var(--faded);
+    margin-bottom: 32px;
+    max-width: 600px;
+  }
+  h3 {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--faded);
+    margin-bottom: 16px;
+    margin-top: 36px;
+  }
+
+  /* Dashed section divider */
+  .section-divider {
+    border: none;
+    border-top: 1px dashed var(--divider);
+    margin: 64px 0;
+  }
+
+  /* Concept callout */
+  .concept-box {
+    background: var(--receipt);
+    border: 1px dashed var(--divider);
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+  .concept-box .quote {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  .concept-box p {
+    font-size: 14px;
+    color: var(--faded);
+    line-height: 1.6;
+  }
+
+  /* Spectrum table */
+  .spectrum {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-top: 16px;
+  }
+  .spectrum th {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faded);
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 2px dashed var(--ink);
+  }
+  .spectrum td {
+    padding: 10px 12px;
+    border-bottom: 1px dashed var(--divider);
+    vertical-align: top;
+  }
+  .spectrum td:first-child { font-weight: 600; }
+  .spectrum .fidelity {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--faded);
+  }
+
+  /* Logo showcase */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .logo-card {
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+  .logo-card.light { background: var(--paper); border: 1px dashed var(--divider); }
+  .logo-card.dark { background: var(--dark-bg); }
+  .logo-lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-mark {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1;
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-width: 2.5px;
+    border-style: solid;
+    border-radius: 3px;
+  }
+  .logo-mark.light { color: var(--ink); border-color: var(--ink); }
+  .logo-mark.dark { color: var(--dark-text); border-color: var(--dark-text); }
+  .logo-text .wordmark {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .logo-text .suffix {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    margin-top: 2px;
+  }
+  .logo-text.light .wordmark { color: var(--ink); }
+  .logo-text.light .suffix { color: var(--faded); }
+  .logo-text.dark .wordmark { color: var(--dark-text); }
+  .logo-text.dark .suffix { color: var(--dark-faded); }
+
+  /* Icon-only row */
+  .icon-row {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-top: 20px;
+    padding: 24px;
+    border: 1px dashed var(--divider);
+    background: var(--receipt);
+  }
+  .icon-sample {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .icon-sample .mini-mark {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-style: solid;
+    border-radius: 2px;
+  }
+  .icon-label {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 10px;
+    color: var(--faded);
+    letter-spacing: 0.05em;
+  }
+
+  /* Logo rules */
+  .logo-rules {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: var(--receipt);
+    border: 1px dashed var(--divider);
+  }
+  .logo-rules ul {
+    list-style: none;
+    padding: 0;
+  }
+  .logo-rules li {
+    font-size: 13px;
+    color: var(--faded);
+    padding: 6px 0;
+    border-bottom: 1px dashed var(--divider);
+    padding-left: 16px;
+    position: relative;
+  }
+  .logo-rules li:last-child { border-bottom: none; }
+  .logo-rules li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--divider);
+  }
+
+  /* Color palette */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .color-grid.signal {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 540px;
+  }
+  .color-swatch {
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--divider);
+  }
+  .color-swatch .swatch {
+    height: 80px;
+  }
+  .color-swatch .info {
+    padding: 12px;
+    background: var(--receipt);
+  }
+  .color-swatch .token {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .color-swatch .hex {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--faded);
+    margin-bottom: 4px;
+  }
+  .color-swatch .usage {
+    font-size: 11px;
+    color: var(--faded);
+    line-height: 1.4;
+  }
+
+  .color-rule {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: var(--receipt);
+    border-left: 3px dashed var(--ink);
+    font-size: 13px;
+    color: var(--faded);
+    line-height: 1.5;
+  }
+  .color-rule strong { color: var(--ink); }
+
+  /* Typography showcase */
+  .type-showcase {
+    margin-top: 16px;
+  }
+  .type-family {
+    padding: 32px;
+    background: var(--receipt);
+    border: 1px dashed var(--divider);
+    margin-bottom: 16px;
+  }
+  .type-family-name {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--faded);
+    margin-bottom: 6px;
+  }
+  .type-family-font {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .type-sample {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--divider);
+  }
+  .type-sample:last-child { border-bottom: none; }
+  .type-sample .role {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faded);
+    width: 70px;
+    flex-shrink: 0;
+  }
+  .type-sample .meta {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 10px;
+    color: var(--divider);
+    width: 160px;
+    flex-shrink: 0;
+  }
+
+  /* Layout patterns */
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .pattern-card {
+    background: var(--receipt);
+    border: 1px dashed var(--divider);
+    overflow: hidden;
+  }
+  .pattern-card.full-width {
+    grid-column: 1 / -1;
+  }
+  .pattern-demo {
+    padding: 28px;
+  }
+  .pattern-info {
+    padding: 16px 20px;
+    border-top: 1px dashed var(--divider);
+  }
+  .pattern-info .name {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .pattern-info .desc {
+    font-size: 12px;
+    color: var(--faded);
+    line-height: 1.4;
+  }
+
+  /* Rules grid */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 16px;
+  }
+  .rules-col {
+    background: var(--receipt);
+    border: 1px dashed var(--divider);
+    padding: 24px;
+  }
+  .rules-col h4 {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px dashed var(--ink);
+  }
+  .rules-col.do h4 { color: var(--healthy); border-color: var(--healthy); }
+  .rules-col.dont h4 { color: var(--alert); border-color: var(--alert); }
+  .rules-col ul { list-style: none; padding: 0; }
+  .rules-col li {
+    font-size: 13px;
+    padding: 7px 0;
+    border-bottom: 1px dashed var(--divider);
+    padding-left: 20px;
+    position: relative;
+    color: var(--faded);
+  }
+  .rules-col li:last-child { border-bottom: none; }
+  .rules-col.do li::before { content: '+'; position: absolute; left: 0; color: var(--healthy); font-family: 'IBM Plex Mono', monospace; font-weight: 700; }
+  .rules-col.dont li::before { content: '\00d7'; position: absolute; left: 2px; color: var(--alert); font-family: 'IBM Plex Mono', monospace; font-weight: 700; }
+
+  /* Footer */
+  .brand-footer {
+    text-align: center;
+    padding-top: 48px;
+    border-top: 2px dashed var(--ink);
+    margin-top: 72px;
+  }
+  .brand-footer .dashes {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--divider);
+    letter-spacing: 4px;
+  }
+  .brand-footer .footer-brand {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--faded);
+    letter-spacing: 0.1em;
+    margin: 12px 0;
+  }
+  .brand-footer .footer-date {
+    font-family: 'IBM Plex Mono', 'Courier New', monospace;
+    font-size: 10px;
+    color: var(--divider);
+  }
+
+  @media print {
+    .page { padding: 40px 20px; }
+    section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header class="brand-header">
+    <div class="dashes">- - - - - - - - - - - - - - - - - - - -</div>
+    <h1>foodcosting.app</h1>
+    <div class="subtitle">Brand Book &middot; v1.0 &middot; April 2026</div>
+  </header>
+
+  <!-- 01. Brand Concept -->
+  <section>
+    <h2>Brand concept</h2>
+    <p class="section-desc">The visual identity is built on the KOT (Kitchen Order Ticket) / receipt aesthetic — the visual language food business owners encounter hundreds of times a day.</p>
+
+    <div class="concept-box">
+      <div class="quote">The receipt is the foundation, not a costume.</div>
+      <p>At the social content level, the receipt metaphor is literal — dashed dividers, monospace numbers, line-item layouts. At the landing page level, it's abstracted into typography rhythm, data presentation, and layout structure. The further from social content, the more refined — but the DNA is always visible.</p>
+    </div>
+
+    <h3>Spectrum of expression</h3>
+    <table class="spectrum">
+      <thead>
+        <tr>
+          <th>Touchpoint</th>
+          <th>Fidelity</th>
+          <th>How the receipt shows up</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Carousels & single posts</td>
+          <td class="fidelity">Most literal</td>
+          <td>Actual receipt structure: header, line items, dashed dividers, bold totals</td>
+        </tr>
+        <tr>
+          <td>Shorts & Reels</td>
+          <td class="fidelity">Literal + animated</td>
+          <td>Dark background, receipt elements animate like a ticket printing</td>
+        </tr>
+        <tr>
+          <td>Blog headers & OG images</td>
+          <td class="fidelity">Moderate</td>
+          <td>Small receipt illustration alongside headline as a visual icon</td>
+        </tr>
+        <tr>
+          <td>Landing page</td>
+          <td class="fidelity">Most abstracted</td>
+          <td>Receipt DNA in data cards within a clean modern page</td>
+        </tr>
+        <tr>
+          <td>App UI</td>
+          <td class="fidelity">Abstracted</td>
+          <td>Monospace numbers, dashed separators, receipt-style summaries</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- 02. Logo -->
+  <section>
+    <h2>Logo</h2>
+    <p class="section-desc">The logomark is a lowercase monospace <strong>f</strong> inside a bordered box — like a key on a register keyboard or a receipt printer character.</p>
+
+    <h3>Full lockup</h3>
+    <div class="logo-grid">
+      <div class="logo-card light">
+        <div class="logo-lockup">
+          <div class="logo-mark light">f</div>
+          <div class="logo-text light">
+            <div class="wordmark">foodcosting</div>
+            <div class="suffix">.app</div>
+          </div>
+        </div>
+      </div>
+      <div class="logo-card dark">
+        <div class="logo-lockup">
+          <div class="logo-mark dark">f</div>
+          <div class="logo-text dark">
+            <div class="wordmark">foodcosting</div>
+            <div class="suffix">.app</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Icon only</h3>
+    <div class="icon-row">
+      <div class="icon-sample">
+        <div class="mini-mark" style="font-size:28px; width:36px; height:36px; color:var(--ink); border:2px solid var(--ink); border-radius:2px;">f</div>
+        <span class="icon-label">36px</span>
+      </div>
+      <div class="icon-sample">
+        <div class="mini-mark" style="font-size:20px; width:28px; height:28px; color:var(--ink); border:2px solid var(--ink); border-radius:2px;">f</div>
+        <span class="icon-label">28px</span>
+      </div>
+      <div class="icon-sample">
+        <div class="mini-mark" style="font-size:14px; width:20px; height:20px; color:var(--ink); border:1.5px solid var(--ink); border-radius:1px;">f</div>
+        <span class="icon-label">20px</span>
+      </div>
+      <div class="icon-sample">
+        <div class="mini-mark" style="font-size:10px; width:16px; height:16px; color:var(--receipt); background:var(--ink); border:none; border-radius:2px;">f</div>
+        <span class="icon-label">16px (filled)</span>
+      </div>
+    </div>
+
+    <h3>Rules</h3>
+    <div class="logo-rules">
+      <ul>
+        <li>The f is always lowercase</li>
+        <li>The box always has a visible border (2px at standard size), border-radius 3px</li>
+        <li>The wordmark is always IBM Plex Mono, bold</li>
+        <li>".app" is always a separate element, smaller, in faded color</li>
+        <li>Minimum clear space: equal to the height of the boxed f mark</li>
+        <li>At very small sizes (16px), use filled variant (white f on ink background)</li>
+      </ul>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- 03. Color Palette -->
+  <section>
+    <h2>Color palette</h2>
+    <p class="section-desc">Mostly monochrome. Color is reserved for meaning — it only appears next to numbers.</p>
+
+    <h3>Core colors</h3>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch" style="background:#111111;"></div>
+        <div class="info">
+          <div class="token">ink</div>
+          <div class="hex">#111111</div>
+          <div class="usage">Headlines, borders, CTA backgrounds, primary text</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#F8F6F0;"></div>
+        <div class="info">
+          <div class="token">paper</div>
+          <div class="hex">#F8F6F0</div>
+          <div class="usage">Canvas background (warm receipt white)</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#FFFFFF; border-bottom: 1px solid #eee;"></div>
+        <div class="info">
+          <div class="token">receipt</div>
+          <div class="hex">#FFFFFF</div>
+          <div class="usage">Card surfaces, data card backgrounds</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#6B6B66;"></div>
+        <div class="info">
+          <div class="token">faded</div>
+          <div class="hex">#6B6B66</div>
+          <div class="usage">Secondary text, labels, timestamps</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#DDD8CC;"></div>
+        <div class="info">
+          <div class="token">divider</div>
+          <div class="hex">#DDD8CC</div>
+          <div class="usage">Dashed rules, separators</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Signal colors (data only)</h3>
+    <div class="color-grid signal">
+      <div class="color-swatch">
+        <div class="swatch" style="background:#C0392B;"></div>
+        <div class="info">
+          <div class="token">alert</div>
+          <div class="hex">#C0392B</div>
+          <div class="usage">Danger numbers, high food cost, losses</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#2E7D32;"></div>
+        <div class="info">
+          <div class="token">healthy</div>
+          <div class="hex">#2E7D32</div>
+          <div class="usage">Good margins, target hit, profit</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#E68A00;"></div>
+        <div class="info">
+          <div class="token">caution</div>
+          <div class="hex">#E68A00</div>
+          <div class="usage">Borderline numbers, warnings</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-rule">
+      <strong>Rule:</strong> 95% of every surface is ink + paper + receipt. Signal colors appear only next to numbers — never as backgrounds, borders, or decorative elements. No gradients, shadows, blur, or glow.
+    </div>
+
+    <h3>Dark mode</h3>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:16px;">
+      <div class="color-swatch">
+        <div class="swatch" style="background:#111111;"></div>
+        <div class="info">
+          <div class="token">dark_bg</div>
+          <div class="hex">#111111</div>
+          <div class="usage">Background</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#F0ECE4;"></div>
+        <div class="info">
+          <div class="token">dark_text</div>
+          <div class="hex">#F0ECE4</div>
+          <div class="usage">Primary text</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#888888;"></div>
+        <div class="info">
+          <div class="token">dark_faded</div>
+          <div class="hex">#888888</div>
+          <div class="usage">Secondary text</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch" style="background:#333333;"></div>
+        <div class="info">
+          <div class="token">dark_divider</div>
+          <div class="hex">#333333</div>
+          <div class="usage">Dashed rules</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- 04. Typography -->
+  <section>
+    <h2>Typography</h2>
+    <p class="section-desc">Two families. Monospace is the star — it carries the receipt DNA. Sans-serif supports readability for longer text.</p>
+
+    <div class="type-showcase">
+      <!-- Mono -->
+      <div class="type-family">
+        <div class="type-family-name">Primary — monospace</div>
+        <div class="type-family-font" style="font-family:'IBM Plex Mono',monospace;">IBM Plex Mono</div>
+        <div class="type-sample">
+          <span class="role">Data</span>
+          <span class="meta">700 / normal</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:28px; font-weight:700;">$8,200 &divide; $24,000 = 34.2%</span>
+        </div>
+        <div class="type-sample">
+          <span class="role">Label</span>
+          <span class="meta">500 / 0.14em / upper</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.14em; text-transform:uppercase; color:var(--faded);">FOOD COST PERCENTAGE</span>
+        </div>
+        <div class="type-sample">
+          <span class="role">Counter</span>
+          <span class="meta">400 / 0.1em</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--faded);">01 / 06</span>
+        </div>
+        <div class="type-sample">
+          <span class="role">Footer</span>
+          <span class="meta">400 / 0.05em</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--faded);">foodcosting.app &middot; 2026</span>
+        </div>
+        <div class="type-sample">
+          <span class="role">Stamp</span>
+          <span class="meta">700 / inverted</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:700; background:var(--ink); color:var(--paper); padding:4px 12px;">34.2%</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:700; background:var(--alert); color:white; padding:4px 12px; margin-left:8px;">! HIGH</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:700; background:var(--healthy); color:white; padding:4px 12px; margin-left:8px;">ON TARGET</span>
+        </div>
+      </div>
+
+      <!-- Sans -->
+      <div class="type-family">
+        <div class="type-family-name">Secondary — sans-serif</div>
+        <div class="type-family-font" style="font-family:'Inter',sans-serif;">Inter</div>
+        <div class="type-sample">
+          <span class="role">Hero</span>
+          <span class="meta">800 / -0.03em</span>
+          <span style="font-family:'Inter',sans-serif; font-size:32px; font-weight:800; letter-spacing:-0.03em;">Your menu is bleeding money.</span>
+        </div>
+        <div class="type-sample">
+          <span class="role">Headline</span>
+          <span class="meta">700 / -0.02em</span>
+          <span style="font-family:'Inter',sans-serif; font-size:22px; font-weight:700; letter-spacing:-0.02em;">The formula every owner needs</span>
+        </div>
+        <div class="type-sample">
+          <span class="role">Body</span>
+          <span class="meta">400 / normal</span>
+          <span style="font-family:'Inter',sans-serif; font-size:15px; color:var(--faded);">Most restaurants calculate food cost after the money is already gone. Here's the fix.</span>
+        </div>
+        <div class="type-sample">
+          <span class="role">CTA</span>
+          <span class="meta">600 / normal</span>
+          <span style="font-family:'Inter',sans-serif; font-size:14px; font-weight:600;">Start calculating free &rarr;</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="color-rule" style="margin-top:20px;">
+      <strong>Rules:</strong> When in doubt, use monospace — it's the default voice. Numbers are always monospace regardless of context. No serif fonts in the system. All copy in sentence case (no Title Case, no ALL CAPS except labels).
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- 05. Layout Patterns -->
+  <section>
+    <h2>Layout patterns</h2>
+    <p class="section-desc">The receipt grammar. These recurring patterns appear across all formats.</p>
+
+    <div class="pattern-grid">
+
+      <!-- Line Item -->
+      <div class="pattern-card">
+        <div class="pattern-demo" style="background:var(--paper);">
+          <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink); padding-bottom:10px; border-bottom:1px dashed var(--divider);">
+            <span>Food Cost</span><span>$8,200</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--ink); padding:10px 0; border-bottom:1px dashed var(--divider);">
+            <span>Sales</span><span>$24,000</span>
+          </div>
+          <div style="border-bottom:2px dashed var(--ink); margin:0;"></div>
+          <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:14px; color:var(--ink); font-weight:700; padding-top:10px;">
+            <span>FOOD COST %</span><span style="color:var(--alert);">34.2%</span>
+          </div>
+        </div>
+        <div class="pattern-info">
+          <div class="name">Line item</div>
+          <div class="desc">Label left, value right. Dashed divider between rows. Bold total at bottom. The most fundamental receipt pattern.</div>
+        </div>
+      </div>
+
+      <!-- Dashed Divider -->
+      <div class="pattern-card">
+        <div class="pattern-demo" style="background:var(--paper); display:flex; flex-direction:column; gap:16px;">
+          <div style="font-family:'Inter',sans-serif; font-size:13px; color:var(--ink);">Section one content</div>
+          <div style="border-top:1px dashed var(--divider);"></div>
+          <div style="font-family:'Inter',sans-serif; font-size:13px; color:var(--ink);">Section two content</div>
+          <div style="border-top:2px dashed var(--ink);"></div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:700;">TOTAL SECTION</div>
+        </div>
+        <div class="pattern-info">
+          <div class="name">Dashed divider</div>
+          <div class="desc">Always dashed, never solid. Light dashes between items. Heavy dashes before totals.</div>
+        </div>
+      </div>
+
+      <!-- Receipt Header -->
+      <div class="pattern-card">
+        <div class="pattern-demo" style="background:var(--paper); text-align:center;">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--divider); letter-spacing:4px;">- - - - - - - - - - - - -</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--faded); letter-spacing:0.2em; margin:8px 0;">FOODCOSTING.APP</div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--divider); letter-spacing:4px;">- - - - - - - - - - - - -</div>
+        </div>
+        <div class="pattern-info">
+          <div class="name">Receipt header</div>
+          <div class="desc">Centered monospace brand between dashed rules. Slide headers, section openers, watermarks.</div>
+        </div>
+      </div>
+
+      <!-- Highlight Stamp -->
+      <div class="pattern-card">
+        <div class="pattern-demo" style="background:var(--paper); display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:700; background:var(--ink); color:var(--paper); padding:6px 14px;">34.2%</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:700; background:var(--alert); color:white; padding:6px 14px;">! HIGH</span>
+          <span style="font-family:'IBM Plex Mono',monospace; font-size:16px; font-weight:700; background:var(--healthy); color:white; padding:6px 14px;">ON TARGET</span>
+        </div>
+        <div class="pattern-info">
+          <div class="name">Highlight stamp</div>
+          <div class="desc">Inverted monospace block for emphasis. Like a register status. One per slide max.</div>
+        </div>
+      </div>
+
+      <!-- Receipt Footer -->
+      <div class="pattern-card">
+        <div class="pattern-demo" style="background:var(--paper); text-align:center;">
+          <div style="border-top:1px dashed var(--divider); padding-top:14px;">
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--faded); letter-spacing:0.05em;">* * * CALCULATE YOURS FREE * * *</div>
+            <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--divider); margin-top:6px;">foodcosting.app</div>
+          </div>
+        </div>
+        <div class="pattern-info">
+          <div class="name">Receipt footer</div>
+          <div class="desc">Centered CTA with asterisk decorators below a dashed rule. Final slides and footers.</div>
+        </div>
+      </div>
+
+      <!-- Dark Mode -->
+      <div class="pattern-card">
+        <div class="pattern-demo" style="background:var(--dark-bg);">
+          <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--dark-faded); letter-spacing:0.14em; text-transform:uppercase; margin-bottom:10px;">FOOD COST</div>
+          <div style="font-family:'Inter',sans-serif; font-size:16px; color:var(--dark-text); font-weight:700; margin-bottom:14px;">Your menu is bleeding money.</div>
+          <div style="border-top:1px dashed var(--dark-divider); padding-top:10px;">
+            <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--dark-faded); margin-bottom:6px;"><span>Food Cost</span><span>$8,200</span></div>
+            <div style="display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--dark-text); font-weight:700;"><span>TOTAL</span><span style="color:var(--alert);">34.2%</span></div>
+          </div>
+        </div>
+        <div class="pattern-info">
+          <div class="name">Dark mode</div>
+          <div class="desc">Same patterns, inverted palette. For video scenes and CTA slides.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- 06. Voice -->
+  <section>
+    <h2>Voice</h2>
+    <p class="section-desc">Direct, operator-minded, number-first. Specific over vague.</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:16px;">
+      <div style="background:var(--receipt); border:1px dashed var(--divider); padding:24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--healthy); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; font-weight:700;">+ Write this</div>
+        <div style="font-family:'Inter',sans-serif; font-size:15px; line-height:1.7;">
+          <div style="padding:6px 0; border-bottom:1px dashed var(--divider);">34% food cost on a $14 plate</div>
+          <div style="padding:6px 0; border-bottom:1px dashed var(--divider);">Your chicken parm costs $4.76 to make</div>
+          <div style="padding:6px 0;">3 menu items are losing money right now</div>
+        </div>
+      </div>
+      <div style="background:var(--receipt); border:1px dashed var(--divider); padding:24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--alert); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; font-weight:700;">&times; Not this</div>
+        <div style="font-family:'Inter',sans-serif; font-size:15px; line-height:1.7; color:var(--faded);">
+          <div style="padding:6px 0; border-bottom:1px dashed var(--divider);">High food costs can impact profitability</div>
+          <div style="padding:6px 0; border-bottom:1px dashed var(--divider);">Optimize your ingredient spending</div>
+          <div style="padding:6px 0;">Unlock the power of menu engineering</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px;">Content formulas</h3>
+    <div style="background:var(--receipt); border:1px dashed var(--divider); padding:20px; margin-top:8px;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:2.2;">
+        <div style="border-bottom:1px dashed var(--divider); padding-bottom:6px; margin-bottom:6px;">
+          <span style="color:var(--faded);">HOOK</span>&nbsp;&nbsp;&nbsp;[Bold claim] + [The number that proves it]
+        </div>
+        <div style="border-bottom:1px dashed var(--divider); padding-bottom:6px; margin-bottom:6px;">
+          <span style="color:var(--faded);">EDUCATE</span>&nbsp;[Problem] + [Why it happens] + [Fix]
+        </div>
+        <div>
+          <span style="color:var(--faded);">DATA</span>&nbsp;&nbsp;&nbsp;&nbsp;[One number, huge] + [What it means] + [CTA]
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-divider">
+
+  <!-- 07. Rules -->
+  <section>
+    <h2>Absolute rules</h2>
+    <p class="section-desc">Non-negotiable constraints that apply everywhere.</p>
+
+    <div class="rules-grid">
+      <div class="rules-col do">
+        <h4>Always</h4>
+        <ul>
+          <li>Dashed dividers (never solid lines)</li>
+          <li>Monospace for all numbers and data</li>
+          <li>Left-right label:value alignment for data</li>
+          <li>Bold totals at the bottom of data sections</li>
+          <li>Warm paper white (#F8F6F0) as default canvas</li>
+          <li>Signal colors only next to numbers</li>
+          <li>One highlight stamp per slide maximum</li>
+          <li>Sentence case for all copy</li>
+        </ul>
+      </div>
+      <div class="rules-col dont">
+        <h4>Never</h4>
+        <ul>
+          <li>Gradients, shadows, blur, or glow</li>
+          <li>Colored backgrounds (except dark mode)</li>
+          <li>Serif fonts</li>
+          <li>Decorative elements, illustrations, or emoji</li>
+          <li>Signal colors used decoratively</li>
+          <li>More than two font families</li>
+          <li>Solid divider lines</li>
+          <li>Title Case or ALL CAPS in headlines</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="brand-footer">
+    <div class="dashes">- - - - - - - - - - - - - - - - - - - -</div>
+    <div class="footer-brand">FOODCOSTING.APP</div>
+    <div class="footer-date">Brand Book v1.0 &middot; April 2026</div>
+  </footer>
+
+</div>
+</body>
+</html>

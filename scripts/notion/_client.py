@@ -4,7 +4,7 @@ Extracted from scripts/fetch_notion_subreddits.py — same pattern, reusable.
 
 Environment variables required:
     NOTION_API_KEY      - required
-    NOTION_VERSION      - optional, default 2026-03-11
+    NOTION_VERSION      - optional, default 2022-06-28
 """
 
 import os
@@ -13,6 +13,10 @@ import sys
 from pathlib import Path
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError
+
+
+DEFAULT_NOTION_VERSION = "2022-06-28"
+DATA_SOURCE_API_VERSION = "2025-09-03"
 
 
 def load_env():
@@ -37,8 +41,22 @@ def get_auth():
     if not api_key:
         print("ERROR: NOTION_API_KEY is not set", file=sys.stderr)
         sys.exit(1)
-    api_version = os.environ.get("NOTION_VERSION", "2026-03-11")
+    api_version = os.environ.get("NOTION_VERSION", DEFAULT_NOTION_VERSION)
     return api_key, api_version
+
+
+def _parse_version(api_version):
+    """Return (year, month, day) for Notion API date strings."""
+    try:
+        year, month, day = api_version.split("-", 2)
+        return int(year), int(month), int(day)
+    except (AttributeError, ValueError):
+        return 0, 0, 0
+
+
+def is_data_source_api(api_version):
+    """Whether this Notion version uses data sources for database operations."""
+    return _parse_version(api_version) >= _parse_version(DATA_SOURCE_API_VERSION)
 
 
 def notion_request(api_key, api_version, endpoint, method="GET", body=None):
@@ -57,6 +75,76 @@ def notion_request(api_key, api_version, endpoint, method="GET", body=None):
     except HTTPError as e:
         error_body = e.read().decode() if e.fp else ""
         raise RuntimeError(f"Notion API {method} /{endpoint}: HTTP {e.code} — {error_body}") from e
+
+
+def discover_data_source_id(api_key, api_version, database_id):
+    """Resolve a database with exactly one child data source to that data source ID."""
+    if not database_id:
+        raise RuntimeError("--database-id is required when --data-source-id is not provided")
+
+    db = notion_request(api_key, api_version, f"databases/{database_id}")
+    data_sources = db.get("data_sources", [])
+    if len(data_sources) == 1:
+        return data_sources[0]["id"]
+    if len(data_sources) > 1:
+        ids = ", ".join(ds.get("id", "<missing>") for ds in data_sources)
+        raise RuntimeError(
+            "Database has multiple data sources; pass --data-source-id explicitly. "
+            f"Available data source IDs: {ids}"
+        )
+    raise RuntimeError(
+        "No data source was returned for this database. "
+        "For modern Notion API versions, pass --data-source-id explicitly."
+    )
+
+
+def resolve_query_target(api_key, api_version, database_id=None, data_source_id=None):
+    """Return (kind, id, endpoint) for querying database-like content."""
+    if is_data_source_api(api_version):
+        resolved = data_source_id or discover_data_source_id(api_key, api_version, database_id)
+        return "data_source", resolved, f"data_sources/{resolved}/query"
+
+    if not database_id:
+        raise RuntimeError("--database-id is required for NOTION_VERSION before 2025-09-03")
+    return "database", database_id, f"databases/{database_id}/query"
+
+
+def get_schema(api_key, api_version, database_id=None, data_source_id=None):
+    """Fetch the property schema for a database or data source."""
+    if is_data_source_api(api_version):
+        resolved = data_source_id or discover_data_source_id(api_key, api_version, database_id)
+        result = notion_request(api_key, api_version, f"data_sources/{resolved}")
+        return result.get("properties", {}), resolved, "data_source"
+
+    if not database_id:
+        raise RuntimeError("--database-id is required for schema lookup before 2025-09-03")
+    result = notion_request(api_key, api_version, f"databases/{database_id}")
+    return result.get("properties", {}), database_id, "database"
+
+
+def get_page_schema(api_key, api_version, page_id):
+    """Fetch a page and return its parent-aware schema plus the page object."""
+    page = notion_request(api_key, api_version, f"pages/{page_id}")
+    parent = page.get("parent", {})
+    parent_type = parent.get("type")
+
+    if parent_type == "data_source_id":
+        schema, _, _ = get_schema(
+            api_key,
+            api_version,
+            data_source_id=parent.get("data_source_id"),
+        )
+        return schema, page
+
+    if parent_type == "database_id":
+        schema, _, _ = get_schema(
+            api_key,
+            api_version,
+            database_id=parent.get("database_id"),
+        )
+        return schema, page
+
+    raise RuntimeError("page is not in a database or data source - cannot resolve property types")
 
 
 def extract_property(prop):
