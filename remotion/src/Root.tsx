@@ -85,7 +85,7 @@ export const RemotionRoot = () => {
             { label: 'Target range', value: '28-35%' },
           ],
           cta: 'Know your numbers.\nPrice with confidence.',
-          audioSrc: null,
+          audioSrc: '/audio/foodcosttip-voice.mp3',
           durationInFrames: 450,
           palette: 'dark' as const,
         }}
@@ -123,7 +123,7 @@ export const RemotionRoot = () => {
             },
           ],
           cta: 'Stop guessing.\nStart calculating.',
-          audioSrc: null,
+          audioSrc: '/audio/mythbusting-voice.mp3',
           durationInFrames: 450,
           palette: 'dark' as const,
         }}
@@ -149,7 +149,7 @@ export const RemotionRoot = () => {
           result: '$11.67',
           resultCaption: 'minimum menu price',
           cta: 'Price every item\nin minutes.',
-          audioSrc: null,
+          audioSrc: '/audio/quickmath-voice.mp3',
           durationInFrames: 450,
           palette: 'dark' as const,
         }}
