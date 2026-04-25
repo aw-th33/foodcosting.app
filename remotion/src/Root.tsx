@@ -70,7 +70,7 @@ export const RemotionRoot = () => {
     <>
       <Composition
         id="FoodCostTip"
-        component={FoodCostTip}
+        component={FoodCostTip as unknown as React.FC<Record<string, unknown>>}
         durationInFrames={1650}
         fps={30}
         width={1080}
@@ -93,7 +93,7 @@ export const RemotionRoot = () => {
 
       <Composition
         id="MythBusting"
-        component={MythBusting}
+        component={MythBusting as unknown as React.FC<Record<string, unknown>>}
         durationInFrames={1500}
         fps={30}
         width={1080}
@@ -131,7 +131,7 @@ export const RemotionRoot = () => {
 
       <Composition
         id="QuickMath"
-        component={QuickMath}
+        component={QuickMath as unknown as React.FC<Record<string, unknown>>}
         durationInFrames={1050}
         fps={30}
         width={1080}
