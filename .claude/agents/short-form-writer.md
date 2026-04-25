@@ -133,6 +133,28 @@ Rules for props:
 - `audioSrc`: always null here — the remotion-renderer generates and injects the real ElevenLabs MP3 at render time using voiceoverTranscript
 - `musicSrc`: always null here — the remotion-renderer injects the background music path at render time
 
+### Step 4.1 - Write the captions
+
+After the Remotion props, append a `## Captions` section to `pipeline/context/script-body.md`. This is used by the buffer-publisher agent to create Buffer drafts.
+
+Format:
+
+```markdown
+## Captions
+
+CAPTION:
+<1-3 sentences in a practitioner voice. State the key insight from the video. End with "Calculate yours free at foodcosting.app." No hashtag tone. Write as if sharing a lesson with another operator.>
+
+HASHTAGS:
+#shorts #foodcost #restaurantbusiness #foodcosting
+```
+
+Rules:
+- One `## Captions` section per script file (not per variant)
+- Caption applies to all channels — the buffer-publisher handles channel-specific formatting (appending hashtags for Instagram, YouTube description format for YouTube)
+- No "swipe" or "link in bio" language — the buffer-publisher appends "Link in bio." for Instagram automatically
+- Apply the humanizer reference: practitioner voice, no AI tells
+
 ### Step 5 - Save the script to Notion
 
 Create a new page in the **Short-Form Scripts** database. Write the full script content to `pipeline/context/script-body.md` using the Write tool first, using this format:
@@ -166,6 +188,16 @@ Create a new page in the **Short-Form Scripts** database. Write the full script 
 ```json
 { ... }
 ```
+
+---
+
+## Captions
+
+CAPTION:
+<1-3 sentences, practitioner voice, ends with "Calculate yours free at foodcosting.app.">
+
+HASHTAGS:
+#shorts #foodcost #restaurantbusiness #foodcosting
 ````
 
 Then create the page:
