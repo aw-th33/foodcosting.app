@@ -116,17 +116,20 @@ For each script variant, produce a ready-to-use props block that maps directly t
   ],
   "cta": "...",
   "audioSrc": null,
-  "durationInFrames": 900
+  "musicSrc": null,
+  "durationInFrames": 450
 }
 ```
 
 Rules for props:
 
 - `hook`: max 8 words
-- `problem`: max 12 words
+- `problem`: max 12 words (note: the Problem scene is dropped from the 15s format — this field is preserved for the record but not rendered)
 - `tipLines`: 2-4 rows of label/value pairs
 - `cta`: max 10 words ending with "at foodcosting.app"
-- `durationInFrames`: 900 for 30s, 1650 for 55s
+- `durationInFrames`: always 450 (15 seconds at 30fps — the platform hard cap for Shorts/Reels)
+- `audioSrc`: always null here — the remotion-renderer injects the real ElevenLabs path at render time
+- `musicSrc`: always null here — the remotion-renderer injects the background music path at render time
 
 ### Step 5 - Save the script to Notion
 
