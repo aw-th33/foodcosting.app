@@ -43,13 +43,13 @@ export const CTA: React.FC<CTAProps> = ({
       <div
         style={{
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           gap: 48,
         }}
       >
         <div
           style={{
+            flexShrink: 0,
             fontFamily: font.body,
             fontSize: 30,
             fontWeight: 600,
@@ -65,10 +65,12 @@ export const CTA: React.FC<CTAProps> = ({
         <span
           style={{
             ...typ.caption,
+            flex: 1,
+            maxWidth: 420,
             color: pal.muted,
           }}
         >
-          * * * {meta} * * *
+          * * * {meta}
         </span>
       </div>
     </SlideFrame>

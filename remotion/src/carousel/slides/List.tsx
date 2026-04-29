@@ -24,7 +24,7 @@ export const List: React.FC<ListProps> = ({
     <SlideFrame palette={p}>
       <Header n={n} total={total} label={kicker} palette={p} />
 
-      <h2 style={{ ...typ.m, margin: '24px 0 48px' }}>{headline}</h2>
+      <h2 style={{ ...typ.m, margin: '24px 0 32px' }}>{headline}</h2>
 
       <div
         style={{
@@ -39,9 +39,10 @@ export const List: React.FC<ListProps> = ({
             key={`${item.term}-${index}`}
             style={{
               display: 'grid',
-              gridTemplateColumns: '60px 280px 1fr',
+              gridTemplateColumns: '60px 320px 1fr',
+              columnGap: 32,
               alignItems: 'baseline',
-              padding: '28px 0',
+              padding: '16px 0',
               borderTop: `1px dashed ${pal.divider}`,
             }}
           >
@@ -51,14 +52,14 @@ export const List: React.FC<ListProps> = ({
             <span
               style={{
                 fontFamily: typ.s.fontFamily,
-                fontSize: 56,
+                fontSize: 52,
                 lineHeight: 1,
                 fontWeight: 700,
               }}
             >
               {item.term}
             </span>
-            <span style={{ ...typ.bodyM, fontSize: 30, color: pal.muted }}>
+            <span style={{ ...typ.bodyM, fontSize: 28, lineHeight: 1.35, color: pal.muted }}>
               {item.description}
             </span>
           </div>

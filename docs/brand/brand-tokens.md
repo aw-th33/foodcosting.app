@@ -2,6 +2,8 @@
 
 This file is the single source of truth for all visual decisions. Agents must follow these tokens exactly. No interpretation, no creative liberty on values.
 
+Implementation map for carousel tweaks: `docs/brand/carousel-tweak-map.md`
+
 ---
 
 ## Identity
@@ -80,7 +82,7 @@ This file is the single source of truth for all visual decisions. Agents must fo
 
 | Role | Family | Size | Weight | Letter Spacing | Line Height | Notes |
 |---|---|---|---|---|---|---|
-| hero | sans | 120-150px | 800 | -0.025em | 0.98 | Cover slide headline |
+| hero | sans | 128px | 800 | -0.025em | 0.98 | Cover slide headline default |
 | headline_l | sans | 96-108px | 700 | -0.02em | 1.04 | Large editorial headline |
 | headline_m | sans | 80-96px | 700 | -0.02em | 1.00 | Mid editorial headline |
 | headline_s | sans | 72-88px | 700 | -0.02em | 1.04 | Small headline, lists |

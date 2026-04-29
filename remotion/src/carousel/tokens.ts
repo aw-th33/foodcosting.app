@@ -55,7 +55,7 @@ export const font = {
 
 export const type = {
   hero: {
-    fontSize: 150,
+    fontSize: 128,
     lineHeight: 0.98,
     letterSpacing: '-0.025em',
     fontFamily: font.body,
